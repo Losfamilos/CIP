@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>CIP | Institutional Grade Execution & GRC Hub</title>
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Typography: keep it clean + “institutional” -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      /* CIP-ish: deep navy + cool slate */
+      --bg0:#071321;
+      --bg1:#0a1a2d;
+      --line: rgba(255,255,255,.10);
+      --line2: rgba(255,255,255,.14);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.66);
+      --muted2: rgba(255,255,255,.52);
+      --chip: rgba(255,255,255,.06);
+      --chip2: rgba(255,255,255,.10);
+      --shadow: 0 18px 50px rgba(0,0,0,.45);
+    }
+    html, body { height: 100%; }
+    body{
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 700px at 10% 10%, rgba(255,255,255,.08), transparent 55%),
+        radial-gradient(1000px 600px at 90% 20%, rgba(120,160,255,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg0) 70%);
+      color: var(--text);
+    }
+    .cip-serif{ font-family: "Crimson Pro", ui-serif, Georgia, serif; letter-spacing: .08em; }
+    .hairline{ border-color: var(--line); }
+    .hairline-2{ border-color: var(--line2); }
+    .glass{
+      background: rgba(255,255,255,.04);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .card{
+      background: rgba(255,255,255,.035);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.28);
+    }
+    .card:hover{ border-color: rgba(255,255,255,.18); }
+    .chip{
+      background: var(--chip);
+      border: 1px solid var(--line);
+    }
+    .chip:hover{ background: var(--chip2); }
+    .chip-active{
+      background: rgba(255,255,255,.10);
+      border-color: rgba(255,255,255,.18);
+    }
+    .focus-ring:focus{
+      outline: 2px solid rgba(255,255,255,.22);
+      outline-offset: 2px;
+    }
+    .table-row:hover{
+      background: rgba(255,255,255,.03);
+    }
+    .badge{
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+    .status-dot{
+      display:inline-block; width:8px; height:8px; border-radius:999px; margin-right:8px;
+      background: rgba(255,255,255,.35);
+    }
+    .dot-green{ background: rgba(74,222,128,.95); }
+    .dot-yellow{ background: rgba(250,204,21,.95); }
+    .dot-slate{ background: rgba(255,255,255,.35); }
+
+    /* Side panel */
+    .drawer{
+      position: fixed; top: 0; right: 0; height: 100%; width: min(520px, 92vw);
+      transform: translateX(110%);
+      transition: transform .26s ease;
+      z-index: 60;
+      box-shadow: var(--shadow);
+    }
+    .drawer.open{ transform: translateX(0%); }
+    .backdrop{
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,.55);
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 55;
+    }
+    .backdrop.open{ opacity: 1; pointer-events: auto; }
+
+    /* Week details modal */
+    .modal{
+      position: fixed; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .18s ease;
+      z-index: 70;
+    }
+    .modal.open{ opacity: 1; pointer-events: auto; }
+    .modal-card{
+      width: min(760px, 92vw);
+      max-height: 86vh;
+      overflow: auto;
+      box-shadow: var(--shadow);
+      border-radius: 18px;
+      border: 1px solid var(--line);
+      background: rgba(10, 22, 37, .92);
+      backdrop-filter: blur(12px);
+    }
+
+    /* Subtle “CIP-ish” container width */
+    .wrap{ max-width: 1280px; margin: 0 auto; padding: 0 20px; }
+    @media (min-width: 1024px){ .wrap{ padding: 0 56px; } }
+    @media (min-width: 1536px){ .wrap{ max-width: 1400px; } }
+  </style>
+</head>
+
+<body class="min-h-full">
+
+  <!-- Top nav (CIP-inspired: centered mark, light links, hairline) -->
+  <header class="sticky top-0 z-50">
+    <div class="glass border-b hairline">
+      <div class="wrap">
+        <div class="h-16 flex items-center justify-between">
+          <nav class="hidden md:flex items-center gap-7 text-xs tracking-[0.18em] uppercase text-white/70">
+            <a class="hover:text-white transition" href="#blueprint">Blueprint</a>
+            <a class="hover:text-white transition" href="#risk-shield">Risk Shield</a>
+            <a class="hover:text-white transition" href="#scorecard">Scorecard</a>
+          </nav>
+
+          <div class="flex items-center gap-3">
+            <div class="cip-serif text-xl md:text-2xl text-white/90">CIP</div>
+            <div class="hidden sm:block h-6 w-px bg-white/15"></div>
+            <div class="hidden sm:block text-xs tracking-[0.18em] uppercase text-white/60">
+              Execution &amp; GRC Hub
+            </div>
+          </div>
+
+          <nav class="hidden md:flex items-center gap-7 text-xs tracking-[0.18em] uppercase text-white/70">
+            <a class="hover:text-white transition" href="#role">Role</a>
+            <a class="hover:text-white transition" href="#next-steps">Next Steps</a>
+            <button id="btnOpenAgendaTop" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-[11px] tracking-[0.16em] uppercase">
+              Walkthrough
+            </button>
+          </nav>
+
+          <button id="btnMobileMenu" class="md:hidden focus-ring px-3 py-2 rounded-full badge text-white/85 text-xs">
+            Menu
+          </button>
+        </div>
+
+        <!-- Mobile menu -->
+        <div id="mobileMenu" class="md:hidden hidden pb-4">
+          <div class="flex flex-col gap-2 text-xs tracking-[0.16em] uppercase text-white/70">
+            <a class="py-2 border-t hairline hover:text-white" href="#blueprint">Blueprint</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#risk-shield">Risk Shield</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#scorecard">Scorecard</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#role">Role</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#next-steps">Next Steps</a>
+          </div>
+        </div>
+
+        <div class="border-b hairline"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="pt-16 md:pt-24 pb-12">
+    <div class="wrap">
+      <div class="max-w-3xl">
+        <div class="flex flex-wrap items-center gap-2 mb-6">
+          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">v1.0 (demo)</span>
+          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">Institutional Grade</span>
+          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/70">Audit-ready by design</span>
+        </div>
+
+        <h1 class="text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
+          Execution cadence<br class="hidden sm:block" />
+          <span class="text-white/75">without compromising</span><br class="hidden sm:block" />
+          audit-readiness
+        </h1>
+
+        <p class="mt-6 text-base md:text-lg text-white/65 leading-relaxed">
+          A governance-light execution engine built for predictable monthly launches.
+          Designed to <span class="text-white/85">de-risk the pipeline</span>, protect capital deployment decisions,
+          and keep evidence and sign-offs embedded — not bolted on.
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href="#risk-shield" class="focus-ring inline-flex items-center justify-center px-5 py-3 rounded-full badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
+            Open Risk Shield
+          </a>
+          <button id="btnOpenAgendaHero" class="focus-ring inline-flex items-center justify-center px-5 py-3 rounded-full bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase">
+            Walkthrough (15 min)
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI Cards -->
+  <section class="pb-10">
+    <div class="wrap">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="card p-5">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Launch Cadence</div>
+          <div id="kpiCadence" class="mt-3 text-3xl font-semibold text-white">30 days</div>
+          <div id="kpiCadenceSub" class="mt-2 text-sm text-white/55">Rolling monthly launch rhythm</div>
+        </div>
+
+        <div class="card p-5">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Pipeline Health</div>
+          <div id="kpiHealth" class="mt-3 text-3xl font-semibold text-white">Stable</div>
+          <div id="kpiHealthSub" class="mt-2 text-sm text-white/55">Balanced load across weeks</div>
+        </div>
+
+        <div class="card p-5">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">GRC Risk Exposure</div>
+          <div id="kpiRisk" class="mt-3 text-3xl font-semibold text-white">Low</div>
+          <div id="kpiRiskSub" class="mt-2 text-sm text-white/55">Controlled, visible, actioned early</div>
+        </div>
+
+        <div class="card p-5">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Audit Readiness</div>
+          <div id="kpiAudit" class="mt-3 text-3xl font-semibold text-white">High</div>
+          <div id="kpiAuditSub" class="mt-2 text-sm text-white/55">Evidence complete by default</div>
+        </div>
+      </div>
+
+      <div class="mt-5 text-xs text-white/50">
+        Tip: Select a project in the Risk Shield to see KPI updates, blueprint highlighting, and scorecard changes.
+      </div>
+    </div>
+  </section>
+
+  <!-- Main grid -->
+  <main class="pb-20">
+    <div class="wrap grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+      <!-- Monthly Launch Blueprint -->
+      <section id="blueprint" class="lg:col-span-5 card p-6">
+        <div class="flex items-start justify-between gap-4">
+          <div>
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Monthly Launch Blueprint</div>
+            <h2 class="mt-2 text-xl font-semibold text-white">30-day execution playbook</h2>
+            <p class="mt-2 text-sm text-white/60 leading-relaxed">
+              Click a week to view objectives, GRC checkpoints, and the evidence artifacts that keep launches audit-ready
+              without slowing delivery.
+            </p>
+          </div>
+
+          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/75 whitespace-nowrap">
+            Governance-light
+          </span>
+        </div>
+
+        <div class="mt-6 space-y-3" id="weekList">
+          <!-- Weeks injected by JS -->
+        </div>
+
+        <div class="mt-6 border-t hairline pt-4">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Design principle</div>
+          <p class="mt-2 text-sm text-white/60 leading-relaxed">
+            “Speed and control are not trade-offs — control is what enables speed at scale.”
+          </p>
+        </div>
+      </section>
+
+      <!-- Risk Shield + Scorecard -->
+      <section id="risk-shield" class="lg:col-span-7 card p-6">
+        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+          <div>
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">GRC Risk Shield</div>
+            <h2 class="mt-2 text-xl font-semibold text-white">De-risking the pipeline</h2>
+            <p class="mt-2 text-sm text-white/60 leading-relaxed">
+              A single surface for phase, compliance status, and decision points — built to give the COO high confidence in
+              capital deployment timing and audit trail completeness.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-2">
+            <!-- Filter chips injected by JS -->
+            <div id="filterChips" class="flex flex-wrap gap-2"></div>
+          </div>
+        </div>
+
+        <div class="mt-5 overflow-auto rounded-2xl border hairline">
+          <table class="w-full min-w-[860px] text-sm">
+            <thead class="bg-white/5">
+              <tr class="text-left text-white/60">
+                <th class="px-4 py-3 font-medium">Project</th>
+                <th class="px-4 py-3 font-medium">Launch date</th>
+                <th class="px-4 py-3 font-medium">Phase</th>
+                <th class="px-4 py-3 font-medium">GRC status</th>
+                <th class="px-4 py-3 font-medium">Risk flags</th>
+                <th class="px-4 py-3 font-medium">Owner</th>
+              </tr>
+            </thead>
+            <tbody id="projectRows" class="divide-y divide-white/10">
+              <!-- Rows injected by JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <div id="scorecard" class="mt-7 grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="card p-5">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Velocity &amp; Quality Scorecard</div>
+            <div class="mt-3 grid grid-cols-2 gap-3">
+              <div class="p-3 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs text-white/55">Time-to-launch</div>
+                <div id="scTime" class="mt-1 text-2xl font-semibold">—</div>
+              </div>
+              <div class="p-3 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs text-white/55">Rework rate</div>
+                <div id="scRework" class="mt-1 text-2xl font-semibold">—</div>
+              </div>
+              <div class="p-3 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs text-white/55">Audit completeness</div>
+                <div id="scAudit" class="mt-1 text-2xl font-semibold">—</div>
+              </div>
+              <div class="p-3 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs text-white/55">Delivery confidence</div>
+                <div id="scConf" class="mt-1 text-2xl font-semibold">—</div>
+              </div>
+            </div>
+            <div class="mt-4 text-sm text-white/60 leading-relaxed">
+              The scorecard shifts with the selected project — highlighting where the launch engine increases cadence
+              <span class="text-white/85">and</span> strengthens audit readiness.
+            </div>
+          </div>
+
+          <div class="card p-5">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Operating posture</div>
+            <h3 class="mt-2 text-lg font-semibold text-white">Predictable rhythm, visible decisions</h3>
+            <ul class="mt-3 space-y-2 text-sm text-white/60">
+              <li class="flex gap-3">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>
+                Weekly sign-offs are embedded in the workflow — not requested at the last minute.
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>
+                Evidence artifacts are produced as output of delivery, keeping audits low-friction.
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>
+                Go/No-Go moments are explicit and scheduled, reducing execution noise for leadership.
+              </li>
+            </ul>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Role & Value -->
+      <section id="role" class="lg:col-span-12 card p-6">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-7">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Role &amp; Value Proposition</div>
+            <h2 class="mt-2 text-2xl font-semibold text-white">Architect &amp; driver of the launch engine</h2>
+            <p class="mt-3 text-sm text-white/60 leading-relaxed">
+              The goal is not a heavy control function — it’s a repeatable execution system that makes monthly launches
+              faster, safer, and easier to govern. The operating model is designed to give the COO “room to breathe”:
+              predictable cadence, explicit decision points, and audit-ready evidence without bureaucracy.
+            </p>
+
+            <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
+              <div class="p-4 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs tracking-[0.16em] uppercase text-white/55">Controlled drive</div>
+                <div class="mt-2 text-sm text-white/70">
+                  Energy channeled into predictable execution — reducing noise while increasing pace.
+                </div>
+              </div>
+              <div class="p-4 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs tracking-[0.16em] uppercase text-white/55">Institutional presence</div>
+                <div class="mt-2 text-sm text-white/70">
+                  Clear, formal stakeholder handling — aligned with investor-grade expectations.
+                </div>
+              </div>
+              <div class="p-4 rounded-2xl border hairline bg-white/3">
+                <div class="text-xs tracking-[0.16em] uppercase text-white/55">Governance-light</div>
+                <div class="mt-2 text-sm text-white/70">
+                  GRC embedded as checkpoints + artifacts — accelerating delivery, not restricting it.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-5">
+            <div class="p-5 rounded-2xl border hairline bg-white/3">
+              <div class="text-xs tracking-[0.18em] uppercase text-white/55">What this unlocks</div>
+              <div class="mt-3 space-y-3 text-sm text-white/65">
+                <div class="flex gap-3">
+                  <span class="status-dot dot-green mt-1.5"></span>
+                  <div><span class="text-white/85">Operational scalability:</span> the same launch playbook reused every month.</div>
+                </div>
+                <div class="flex gap-3">
+                  <span class="status-dot dot-green mt-1.5"></span>
+                  <div><span class="text-white/85">De-risking:</span> issues surface early through visible evidence gaps and flags.</div>
+                </div>
+                <div class="flex gap-3">
+                  <span class="status-dot dot-yellow mt-1.5"></span>
+                  <div><span class="text-white/85">Leadership clarity:</span> fewer ad-hoc escalations, clearer go/no-go decisions.</div>
+                </div>
+              </div>
+
+              <div class="mt-5 pt-4 border-t hairline">
+                <div class="text-xs tracking-[0.18em] uppercase text-white/55">Note</div>
+                <p class="mt-2 text-sm text-white/60 leading-relaxed">
+                  This demo is intentionally “no tooling, no procurement” — designed to show the operating system,
+                  not the software stack.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Next Steps -->
+      <section id="next-steps" class="lg:col-span-12 card p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Next Steps</div>
+            <h2 class="mt-2 text-2xl font-semibold text-white">Align on operating model &amp; rollout</h2>
+            <p class="mt-2 text-sm text-white/60 leading-relaxed">
+              Suggested: a short walkthrough to align on cadence, decision points, and what “institutional grade” means in your context.
+            </p>
+          </div>
+
+          <div class="flex flex-wrap gap-3">
+            <a class="focus-ring px-5 py-3 rounded-full bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase"
+               href="mailto:?subject=Discuss%20Operating%20Model%20-%20Execution%20%26%20GRC%20Hub&body=Suggested%20agenda%3A%0A1%29%20Monthly%20launch%20cadence%20%2830-day%20playbook%29%0A2%29%20GRC%20checkpoints%20%2B%20evidence%20artifacts%0A3%29%20Decision%20moments%20%28Go%2FNo-Go%29%20and%20leadership%20dashboard%0A4%29%20Operating%20model%20staffing%20and%20first%2030%20days%0A">
+              Discuss operating model
+            </a>
+            <button id="btnOpenAgendaBottom" class="focus-ring px-5 py-3 rounded-full badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
+              Walkthrough (15 min)
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Drawer + Backdrop -->
+  <div id="backdrop" class="backdrop"></div>
+  <aside id="drawer" class="drawer bg-[rgba(7,19,33,.92)] border-l hairline backdrop-blur-xl">
+    <div class="h-full flex flex-col">
+      <div class="p-5 border-b hairline flex items-start justify-between gap-4">
+        <div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Project Detail</div>
+          <div id="drawerTitle" class="mt-2 text-lg font-semibold text-white">—</div>
+          <div id="drawerSub" class="mt-1 text-sm text-white/60">Select a project to view evidence, risks, and decision point.</div>
+        </div>
+        <button id="btnCloseDrawer" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
+          Close
+        </button>
+      </div>
+
+      <div class="p-5 overflow-auto">
+        <div class="grid grid-cols-2 gap-3">
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">Phase</div>
+            <div id="drawerPhase" class="mt-1 text-lg font-semibold">—</div>
+          </div>
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">GRC status</div>
+            <div id="drawerStatus" class="mt-1 text-lg font-semibold">—</div>
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Evidence checklist</div>
+          <ul id="drawerEvidence" class="mt-3 space-y-2 text-sm text-white/65">
+            <!-- injected -->
+          </ul>
+        </div>
+
+        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Risk notes</div>
+          <div id="drawerRisks" class="mt-3 space-y-2 text-sm text-white/65">
+            <!-- injected -->
+          </div>
+        </div>
+
+        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Next decision point</div>
+          <div id="drawerDecision" class="mt-3 text-sm text-white/70">—</div>
+        </div>
+
+        <div class="mt-6">
+          <button id="btnJumpToWeek" class="w-full focus-ring px-4 py-3 rounded-2xl bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase">
+            Open corresponding week in blueprint
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Week details modal -->
+  <div id="weekModal" class="modal">
+    <div class="backdrop open" id="weekModalBackdrop"></div>
+
+    <div class="modal-card">
+      <div class="p-5 border-b hairline flex items-start justify-between gap-4">
+        <div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Week detail</div>
+          <div id="weekModalTitle" class="mt-2 text-lg font-semibold text-white">—</div>
+          <div id="weekModalSubtitle" class="mt-1 text-sm text-white/60">—</div>
+        </div>
+        <button id="btnCloseWeekModal" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
+          Close
+        </button>
+      </div>
+
+      <div class="p-5 space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Key objectives</div>
+            <ul id="weekModalObjectives" class="mt-3 space-y-2 text-sm text-white/65"></ul>
+          </div>
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">GRC checkpoints</div>
+            <ul id="weekModalChecks" class="mt-3 space-y-2 text-sm text-white/65"></ul>
+          </div>
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Output artifacts</div>
+            <ul id="weekModalArtifacts" class="mt-3 space-y-2 text-sm text-white/65"></ul>
+          </div>
+        </div>
+
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">How this accelerates delivery</div>
+          <p id="weekModalExplain" class="mt-2 text-sm text-white/65 leading-relaxed"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Agenda modal (simple) -->
+  <div id="agendaModal" class="modal">
+    <div class="backdrop open" id="agendaBackdrop"></div>
+    <div class="modal-card">
+      <div class="p-5 border-b hairline flex items-start justify-between gap-4">
+        <div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Walkthrough</div>
+          <div class="mt-2 text-lg font-semibold text-white">Suggested 15-minute agenda</div>
+          <div class="mt-1 text-sm text-white/60">Focused, COO-friendly, decision-oriented.</div>
+        </div>
+        <button id="btnCloseAgenda" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
+          Close
+        </button>
+      </div>
+      <div class="p-5">
+        <ol class="list-decimal pl-5 space-y-2 text-sm text-white/70">
+          <li><span class="text-white/85">What “monthly cadence” means</span>: 30-day blueprint + capacity assumptions.</li>
+          <li><span class="text-white/85">Where GRC lives in the flow</span>: checkpoints, sign-offs, evidence artifacts.</li>
+          <li><span class="text-white/85">Risk Shield</span>: how you get “one screen” visibility & early de-risking.</li>
+          <li><span class="text-white/85">Go/No-Go</span>: decision points and escalation rules (governance-light).</li>
+          <li><span class="text-white/85">First 30 days</span>: how to stand up the team and launch the first cycle.</li>
+        </ol>
+        <div class="mt-5 p-4 rounded-2xl border hairline bg-white/3 text-sm text-white/65">
+          Outcome: predictable operational cadence + audit-ready evidence — enabling confident capital deployment timing.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /*****************************************************************
+     * Hardcoded demo data (easy to change)
+     *****************************************************************/
+    const weeks = [
+      {
+        id: 1,
+        title: "Week 1 — De-risking & Scope",
+        subtitle: "Clarify objective, define decision constraints, surface early risks.",
+        objectives: [
+          "Define scope and success criteria (institutional grade)",
+          "Stakeholder map + decision owner alignment",
+          "Baseline timeline and critical dependencies"
+        ],
+        checks: [
+          "Regulatory / policy alignment check",
+          "Risk assessment kickoff (materiality + controls)",
+          "Third-party exposure scan (if applicable)"
+        ],
+        artifacts: [
+          "Launch Brief (scope, constraints, success metrics)",
+          "Initial Risk Register entry + owners",
+          "Stakeholder & sign-off map"
+        ],
+        explain:
+          "Early clarity prevents late rework. By making constraints explicit in Week 1, delivery teams move faster with fewer escalations and cleaner approvals."
+      },
+      {
+        id: 2,
+        title: "Week 2 — Resource Alignment",
+        subtitle: "Lock capacity, validate assumptions, prepare evidence paths.",
+        objectives: [
+          "Confirm team capacity + role clarity",
+          "Set delivery plan (work packages) and owners",
+          "Define evidence requirements per workstream"
+        ],
+        checks: [
+          "Controls mapping (what evidence is required, by whom)",
+          "CAPEX / cost guardrails validation (if relevant)",
+          "Information security / data handling check"
+        ],
+        artifacts: [
+          "Delivery plan + RACI (lean)",
+          "Evidence checklist (per workstream)",
+          "Updated Risk Register + mitigations"
+        ],
+        explain:
+          "Evidence is planned like any other deliverable. This avoids last-minute ‘audit scrambling’ and reduces management overhead near go-live."
+      },
+      {
+        id: 3,
+        title: "Week 3 — Operational Readiness",
+        subtitle: "Prove readiness, close evidence gaps, prepare go/no-go.",
+        objectives: [
+          "Operational runbook readiness",
+          "Training / comms readiness (where needed)",
+          "Close remaining risks and evidence gaps"
+        ],
+        checks: [
+          "Pre go/no-go review (leadership pack)",
+          "Evidence completeness checkpoint",
+          "Exception handling approval (if any)"
+        ],
+        artifacts: [
+          "Operations Runbook + handover plan",
+          "Go/No-Go pack (decision-ready)",
+          "Evidence bundle (audit trail)"
+        ],
+        explain:
+          "Readiness is verified before pressure peaks. This reduces last-minute escalations and makes go/no-go decisions faster and higher confidence."
+      },
+      {
+        id: 4,
+        title: "Week 4 — Launch & Stabilise",
+        subtitle: "Execute launch, monitor, and secure the audit trail.",
+        objectives: [
+          "Go-live execution and monitoring",
+          "Stabilisation and defect triage (light)",
+          "Capture lessons learned into next cycle"
+        ],
+        checks: [
+          "Final sign-off captured (timestamped)",
+          "Post-launch risk review (residual risk)",
+          "Audit trail archive confirmation"
+        ],
+        artifacts: [
+          "Go-live record (timestamped decision)",
+          "Post-launch risk note + actions",
+          "Lessons learned into playbook vNext"
+        ],
+        explain:
+          "Stabilisation is part of the cadence. Capturing learnings into the playbook increases scalability — the next launch starts stronger by default."
+      }
+    ];
+
+    const projects = [
+      {
+        id: "CIP-2026-ALPHA",
+        launchDate: "2026-03-01",
+        phaseWeek: 3,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        owner: "Ops Excellence",
+        evidence: [
+          { label: "Go/No-Go pack", done: true },
+          { label: "Evidence bundle", done: true },
+          { label: "Runbook + handover plan", done: true },
+          { label: "Risk register updated", done: true }
+        ],
+        riskNotes: [
+          "Residual risk within tolerance; mitigations verified.",
+          "Dependencies stable; no outstanding approvals."
+        ],
+        decisionPoint: "Go/No-Go review scheduled (48h before launch).",
+        scorecard: { time: "18 days", rework: "Low", audit: "96%", confidence: "High" }
+      },
+      {
+        id: "CIP-2026-BETA",
+        launchDate: "2026-04-01",
+        phaseWeek: 2,
+        grcStatus: "In review",
+        riskFlags: 1,
+        owner: "Platform",
+        evidence: [
+          { label: "Delivery plan + RACI", done: true },
+          { label: "Controls mapping", done: true },
+          { label: "Evidence checklist", done: false },
+          { label: "Risk register updated", done: true }
+        ],
+        riskNotes: [
+          "One evidence gap: controls evidence owners not fully locked.",
+          "Mitigation: assign evidence owners in Week 2 checkpoint."
+        ],
+        decisionPoint: "Evidence owner alignment required before Week 3 readiness.",
+        scorecard: { time: "22 days", rework: "Medium", audit: "84%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-GAMMA",
+        launchDate: "2026-05-01",
+        phaseWeek: 1,
+        grcStatus: "Pending",
+        riskFlags: 1,
+        owner: "Investment Ops",
+        evidence: [
+          { label: "Launch brief", done: true },
+          { label: "Stakeholder map", done: false },
+          { label: "Initial risk register entry", done: true },
+          { label: "Regulatory alignment check", done: false }
+        ],
+        riskNotes: [
+          "Stakeholder map incomplete; risk of late sign-off friction.",
+          "Mitigation: complete sign-off map in Week 1."
+        ],
+        decisionPoint: "Scope/sign-off map closure at end of Week 1.",
+        scorecard: { time: "30 days", rework: "Low", audit: "62%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-DELTA",
+        launchDate: "2026-06-01",
+        phaseWeek: 2,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        owner: "Asset Mgmt",
+        evidence: [
+          { label: "Delivery plan + RACI", done: true },
+          { label: "Evidence checklist", done: true },
+          { label: "Risk register updated", done: true },
+          { label: "InfoSec check", done: true }
+        ],
+        riskNotes: [
+          "No material risks; cadence on track.",
+          "Dependencies stable; clear owners."
+        ],
+        decisionPoint: "Proceed to Week 3 readiness checkpoint.",
+        scorecard: { time: "20 days", rework: "Low", audit: "90%", confidence: "High" }
+      },
+      {
+        id: "CIP-2026-EPSILON",
+        launchDate: "2026-06-15",
+        phaseWeek: 1,
+        grcStatus: "In review",
+        riskFlags: 2,
+        owner: "Operations",
+        evidence: [
+          { label: "Launch brief", done: true },
+          { label: "Initial risk register entry", done: true },
+          { label: "Third-party exposure scan", done: false },
+          { label: "Controls mapping", done: false }
+        ],
+        riskNotes: [
+          "Two pending checks (third-party exposure + controls mapping).",
+          "Mitigation: close in Week 1 before scope locks."
+        ],
+        decisionPoint: "Close third-party + controls mapping before Week 2 resourcing.",
+        scorecard: { time: "28 days", rework: "Medium", audit: "58%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-ZETA",
+        launchDate: "2026-07-01",
+        phaseWeek: 4,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        owner: "Delivery Lead",
+        evidence: [
+          { label: "Go-live record", done: true },
+          { label: "Audit trail archived", done: true },
+          { label: "Post-launch risk note", done: true },
+          { label: "Lessons learned captured", done: true }
+        ],
+        riskNotes: [
+          "Stabilisation complete; playbook improvements queued.",
+          "Audit trail sealed; monitoring in steady state."
+        ],
+        decisionPoint: "Formal close-out and transition to BAU.",
+        scorecard: { time: "16 days", rework: "Low", audit: "99%", confidence: "High" }
+      }
+    ];
+
+    const filters = [
+      { id: "all", label: "All" },
+      { id: "next30", label: "Next 30 days" },
+      { id: "inreview", label: "In review" },
+      { id: "compliant", label: "Compliant" }
+    ];
+
+    /*****************************************************************
+     * Simple state management
+     *****************************************************************/
+    const state = {
+      selectedProjectId: null,
+      selectedWeek: null,
+      activeFilter: "all"
+    };
+
+    const el = (id) => document.getElementById(id);
+
+    /*****************************************************************
+     * Helpers
+     *****************************************************************/
+    function formatDate(iso){
+      // display like "Mar 01, 2026"
+      const d = new Date(iso + "T00:00:00");
+      return d.toLocaleDateString(undefined, { month: "short", day: "2-digit", year: "numeric" });
+    }
+
+    function statusDot(status){
+      if(status === "Compliant") return "dot-green";
+      if(status === "In review") return "dot-yellow";
+      return "dot-slate";
+    }
+
+    function statusText(status){
+      // keep status neutral, no red
+      if(status === "Compliant") return "Compliant";
+      if(status === "In review") return "In review";
+      return "Pending";
+    }
+
+    function filterProjects(list){
+      const now = new Date("2026-02-20T00:00:00"); // fixed demo "today" (keeps deterministic)
+      const in30 = new Date(now); in30.setDate(in30.getDate()+30);
+
+      switch(state.activeFilter){
+        case "next30":
+          return list.filter(p => {
+            const d = new Date(p.launchDate + "T00:00:00");
+            return d >= now && d <= in30;
+          });
+        case "inreview":
+          return list.filter(p => p.grcStatus === "In review");
+        case "compliant":
+          return list.filter(p => p.grcStatus === "Compliant");
+        default:
+          return list;
+      }
+    }
+
+    function computeKpis(currentList){
+      // If a project is selected, prefer its data (gives strong “product feel”)
+      const selected = state.selectedProjectId ? projects.find(p => p.id === state.selectedProjectId) : null;
+
+      if(selected){
+        return {
+          cadence: "30 days",
+          cadenceSub: "Rolling monthly launch rhythm",
+          health: selected.grcStatus === "Compliant" ? "Stable" : "Watch",
+          healthSub: selected.grcStatus === "Compliant" ? "Clear owners, low friction" : "One or more checkpoints pending",
+          risk: selected.riskFlags === 0 ? "Low" : "Controlled",
+          riskSub: selected.riskFlags === 0 ? "No open flags" : `${selected.riskFlags} flag(s) visible & owned`,
+          audit: parseInt(selected.scorecard.audit, 10) >= 90 ? "High" : "Improving",
+          auditSub: `Evidence completeness ${selected.scorecard.audit}`
+        };
+      }
+
+      // Otherwise compute a simple aggregate view from currentList
+      const total = currentList.length || 1;
+      const compliant = currentList.filter(p => p.grcStatus === "Compliant").length;
+      const inreview = currentList.filter(p => p.grcStatus === "In review").length;
+      const flags = currentList.reduce((a,p)=>a+p.riskFlags,0);
+
+      const health = (flags === 0 && inreview === 0) ? "Stable" : "Stable";
+      const risk = flags === 0 ? "Low" : "Controlled";
+      const audit = (compliant / total) >= 0.6 ? "High" : "Improving";
+
+      return {
+        cadence: "30 days",
+        cadenceSub: "Rolling monthly launch rhythm",
+        health,
+        healthSub: `${compliant}/${total} compliant · ${inreview} in review`,
+        risk,
+        riskSub: `${flags} total flag(s) visible across pipeline`,
+        audit,
+        auditSub: "Evidence embedded as delivery output"
+      };
+    }
+
+    /*****************************************************************
+     * Render: Weeks (accordion + modal)
+     *****************************************************************/
+    function renderWeeks(){
+      const container = el("weekList");
+      container.innerHTML = "";
+
+      weeks.forEach(w => {
+        const isActive = state.selectedWeek === w.id;
+        const highlight = state.selectedProjectId
+          ? (projects.find(p => p.id === state.selectedProjectId)?.phaseWeek === w.id)
+          : false;
+
+        const btn = document.createElement("button");
+        btn.className =
+          "w-full text-left p-4 rounded-2xl border hairline bg-white/3 hover:bg-white/5 transition focus-ring";
+        btn.setAttribute("data-week", String(w.id));
+
+        btn.innerHTML = `
+          <div class="flex items-start justify-between gap-4">
+            <div>
+              <div class="text-xs tracking-[0.18em] uppercase ${highlight ? "text-white/85" : "text-white/55"}">
+                ${highlight ? "Selected project phase" : "Week " + w.id}
+              </div>
+              <div class="mt-1 text-base font-semibold text-white">${w.title}</div>
+              <div class="mt-1 text-sm ${highlight ? "text-white/75" : "text-white/60"}">${w.subtitle}</div>
+            </div>
+            <div class="flex items-center gap-2">
+              ${highlight ? `<span class="badge px-2.5 py-1 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">highlight</span>` : ""}
+              <span class="badge px-2.5 py-1 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/70">
+                Details
+              </span>
+            </div>
+          </div>
+        `;
+
+        btn.addEventListener("click", () => openWeekModal(w.id));
+        container.appendChild(btn);
+      });
+    }
+
+    function openWeekModal(weekId){
+      // “Auto-close accordion” requirement is satisfied by a single modal showing one week at a time.
+      state.selectedWeek = weekId;
+
+      const w = weeks.find(x => x.id === weekId);
+      el("weekModalTitle").textContent = w.title;
+      el("weekModalSubtitle").textContent = w.subtitle;
+
+      const obj = el("weekModalObjectives");
+      const chk = el("weekModalChecks");
+      const art = el("weekModalArtifacts");
+
+      obj.innerHTML = w.objectives.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
+      chk.innerHTML = w.checks.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
+      art.innerHTML = w.artifacts.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
+
+      el("weekModalExplain").textContent = w.explain;
+
+      el("weekModal").classList.add("open");
+      renderWeeks(); // highlight sync
+    }
+
+    function closeWeekModal(){
+      el("weekModal").classList.remove("open");
+    }
+
+    /*****************************************************************
+     * Render: Filter chips + table rows
+     *****************************************************************/
+    function renderFilters(){
+      const container = el("filterChips");
+      container.innerHTML = "";
+      filters.forEach(f => {
+        const b = document.createElement("button");
+        const active = state.activeFilter === f.id;
+        b.className = `focus-ring px-3 py-2 rounded-full text-[11px] tracking-[0.16em] uppercase transition ${active ? "chip-active" : "chip"} text-white/80`;
+        b.textContent = f.label;
+        b.addEventListener("click", () => {
+          state.activeFilter = f.id;
+          // If current selected project is filtered out, deselect (keeps UI consistent).
+          const filteredIds = new Set(filterProjects(projects).map(p => p.id));
+          if(state.selectedProjectId && !filteredIds.has(state.selectedProjectId)){
+            state.selectedProjectId = null;
+          }
+          renderAll();
+        });
+        container.appendChild(b);
+      });
+    }
+
+    function renderProjects(){
+      const tbody = el("projectRows");
+      tbody.innerHTML = "";
+
+      const list = filterProjects(projects);
+
+      list.forEach(p => {
+        const tr = document.createElement("tr");
+        tr.className = `table-row cursor-pointer transition ${state.selectedProjectId === p.id ? "bg-white/5" : ""}`;
+        tr.innerHTML = `
+          <td class="px-4 py-3 font-mono text-white/85">${p.id}</td>
+          <td class="px-4 py-3 text-white/70">${formatDate(p.launchDate)}</td>
+          <td class="px-4 py-3 text-white/70">Week ${p.phaseWeek}</td>
+          <td class="px-4 py-3 text-white/70">
+            <span class="inline-flex items-center">
+              <span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}
+            </span>
+          </td>
+          <td class="px-4 py-3 text-white/70">${p.riskFlags}</td>
+          <td class="px-4 py-3 text-white/70">${p.owner}</td>
+        `;
+        tr.addEventListener("click", () => {
+          state.selectedProjectId = p.id;
+          openDrawer(p.id);
+          renderAll();
+        });
+        tbody.appendChild(tr);
+      });
+
+      // If empty list
+      if(list.length === 0){
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td colspan="6" class="px-4 py-6 text-white/60">
+            No projects match this filter.
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    /*****************************************************************
+     * Drawer: project detail
+     *****************************************************************/
+    function openDrawer(projectId){
+      const p = projects.find(x => x.id === projectId);
+      if(!p) return;
+
+      el("drawerTitle").textContent = p.id;
+      el("drawerSub").textContent = `${formatDate(p.launchDate)} · ${p.owner}`;
+      el("drawerPhase").textContent = `Week ${p.phaseWeek}`;
+      el("drawerStatus").innerHTML = `<span class="inline-flex items-center">
+        <span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}
+      </span>`;
+
+      // Evidence
+      el("drawerEvidence").innerHTML = p.evidence.map(e => `
+        <li class="flex items-start justify-between gap-3">
+          <span>${e.label}</span>
+          <span class="text-xs px-2 py-1 rounded-full badge ${e.done ? "text-white/85" : "text-white/60"}">
+            ${e.done ? "Complete" : "Pending"}
+          </span>
+        </li>
+      `).join("");
+
+      // Risks
+      el("drawerRisks").innerHTML = p.riskNotes.map(r => `
+        <div class="flex gap-3">
+          <span class="mt-2 h-1.5 w-1.5 rounded-full ${p.riskFlags ? "bg-white/50" : "bg-white/35"}"></span>
+          <div>${r}</div>
+        </div>
+      `).join("");
+
+      el("drawerDecision").textContent = p.decisionPoint;
+
+      el("backdrop").classList.add("open");
+      el("drawer").classList.add("open");
+    }
+
+    function closeDrawer(){
+      el("drawer").classList.remove("open");
+      el("backdrop").classList.remove("open");
+    }
+
+    /*****************************************************************
+     * KPIs + Scorecard
+     *****************************************************************/
+    function renderKpis(){
+      const list = filterProjects(projects);
+      const k = computeKpis(list);
+
+      el("kpiCadence").textContent = k.cadence;
+      el("kpiCadenceSub").textContent = k.cadenceSub;
+
+      el("kpiHealth").textContent = k.health;
+      el("kpiHealthSub").textContent = k.healthSub;
+
+      el("kpiRisk").textContent = k.risk;
+      el("kpiRiskSub").textContent = k.riskSub;
+
+      el("kpiAudit").textContent = k.audit;
+      el("kpiAuditSub").textContent = k.auditSub;
+
+      // Scorecard
+      const p = state.selectedProjectId ? projects.find(x => x.id === state.selectedProjectId) : null;
+      el("scTime").textContent = p ? p.scorecard.time : "—";
+      el("scRework").textContent = p ? p.scorecard.rework : "—";
+      el("scAudit").textContent = p ? p.scorecard.audit : "—";
+      el("scConf").textContent = p ? p.scorecard.confidence : "—";
+    }
+
+    /*****************************************************************
+     * Global render
+     *****************************************************************/
+    function renderAll(){
+      renderFilters();
+      renderProjects();
+      renderKpis();
+      renderWeeks();
+    }
+
+    /*****************************************************************
+     * Wire up events
+     *****************************************************************/
+    function setupUi(){
+      // drawer close
+      el("btnCloseDrawer").addEventListener("click", closeDrawer);
+      el("backdrop").addEventListener("click", closeDrawer);
+
+      // jump to week from drawer
+      el("btnJumpToWeek").addEventListener("click", () => {
+        const p = state.selectedProjectId ? projects.find(x => x.id === state.selectedProjectId) : null;
+        if(!p) return;
+        closeDrawer();
+        document.querySelector("#blueprint").scrollIntoView({ behavior: "smooth", block: "start" });
+        openWeekModal(p.phaseWeek);
+      });
+
+      // week modal close
+      el("btnCloseWeekModal").addEventListener("click", closeWeekModal);
+      el("weekModalBackdrop").addEventListener("click", closeWeekModal);
+
+      // agenda modal
+      const openAgenda = () => el("agendaModal").classList.add("open");
+      const closeAgenda = () => el("agendaModal").classList.remove("open");
+
+      el("btnOpenAgendaHero").addEventListener("click", openAgenda);
+      el("btnOpenAgendaBottom").addEventListener("click", openAgenda);
+      el("btnOpenAgendaTop").addEventListener("click", openAgenda);
+      el("btnCloseAgenda").addEventListener("click", closeAgenda);
+      el("agendaBackdrop").addEventListener("click", closeAgenda);
+
+      // mobile menu
+      el("btnMobileMenu").addEventListener("click", () => {
+        el("mobileMenu").classList.toggle("hidden");
+      });
+
+      // ESC close modals/drawer
+      document.addEventListener("keydown", (e) => {
+        if(e.key === "Escape"){
+          closeDrawer();
+          el("weekModal").classList.remove("open");
+          el("agendaModal").classList.remove("open");
+        }
+      });
+
+      // Default selection to make it feel “alive”
+      state.activeFilter = "all";
+      state.selectedProjectId = "CIP-2026-BETA";
+      openDrawer(state.selectedProjectId);
+    }
+
+    // Init
+    renderAll();
+    setupUi();
+  </script>
+</body>
+</html>
