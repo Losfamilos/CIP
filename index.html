@@ -8,13 +8,14 @@
   <!-- Tailwind (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Typography: keep it clean + “institutional” -->
+  <!-- Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Crimson+Pro:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root{
+      /* CIP-ish: deep navy + cool slate */
       --bg0:#071321;
       --bg1:#0a1a2d;
       --line: rgba(255,255,255,.10);
@@ -78,9 +79,22 @@
     .dot-yellow{ background: rgba(250,204,21,.95); }
     .dot-slate{ background: rgba(255,255,255,.35); }
 
+    /* Portfolio bars */
+    .bar-wrap{
+      background: rgba(255,255,255,.05);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill{
+      height: 10px;
+      background: rgba(255,255,255,.22);
+      transition: width .25s ease;
+    }
+
     /* Side panel */
     .drawer{
-      position: fixed; top: 0; right: 0; height: 100%; width: min(520px, 92vw);
+      position: fixed; top: 0; right: 0; height: 100%; width: min(560px, 92vw);
       transform: translateX(110%);
       transition: transform .26s ease;
       z-index: 60;
@@ -106,7 +120,7 @@
     }
     .modal.open{ opacity: 1; pointer-events: auto; }
     .modal-card{
-      width: min(820px, 92vw);
+      width: min(860px, 92vw);
       max-height: 86vh;
       overflow: auto;
       box-shadow: var(--shadow);
@@ -116,7 +130,7 @@
       backdrop-filter: blur(12px);
     }
 
-    /* Container */
+    /* Layout width */
     .wrap{ max-width: 1280px; margin: 0 auto; padding: 0 20px; }
     @media (min-width: 1024px){ .wrap{ padding: 0 56px; } }
     @media (min-width: 1536px){ .wrap{ max-width: 1400px; } }
@@ -131,9 +145,10 @@
       <div class="wrap">
         <div class="h-16 flex items-center justify-between">
           <nav class="hidden md:flex items-center gap-7 text-xs tracking-[0.18em] uppercase text-white/70">
-            <a class="hover:text-white transition" href="#why">Why</a>
-            <a class="hover:text-white transition" href="#what">What</a>
-            <a class="hover:text-white transition" href="#governance">Governance</a>
+            <a class="hover:text-white transition" href="#why-what">Why/What</a>
+            <a class="hover:text-white transition" href="#deployment">Portfolio</a>
+            <a class="hover:text-white transition" href="#blueprint">Blueprint</a>
+            <a class="hover:text-white transition" href="#risk-shield">Risk Shield</a>
           </nav>
 
           <div class="flex items-center gap-3">
@@ -145,8 +160,9 @@
           </div>
 
           <nav class="hidden md:flex items-center gap-7 text-xs tracking-[0.18em] uppercase text-white/70">
-            <a class="hover:text-white transition" href="#blueprint">Blueprint</a>
-            <a class="hover:text-white transition" href="#risk-shield">Risk Shield</a>
+            <a class="hover:text-white transition" href="#board">Board</a>
+            <a class="hover:text-white transition" href="#role">Role</a>
+            <a class="hover:text-white transition" href="#next-steps">Next Steps</a>
             <button id="btnOpenAgendaTop" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-[11px] tracking-[0.16em] uppercase">
               Walkthrough
             </button>
@@ -160,11 +176,11 @@
         <!-- Mobile menu -->
         <div id="mobileMenu" class="md:hidden hidden pb-4">
           <div class="flex flex-col gap-2 text-xs tracking-[0.16em] uppercase text-white/70">
-            <a class="py-2 border-t hairline hover:text-white" href="#why">Why</a>
-            <a class="py-2 border-t hairline hover:text-white" href="#what">What</a>
-            <a class="py-2 border-t hairline hover:text-white" href="#governance">Governance</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#why-what">Why/What</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#deployment">Portfolio</a>
             <a class="py-2 border-t hairline hover:text-white" href="#blueprint">Blueprint</a>
             <a class="py-2 border-t hairline hover:text-white" href="#risk-shield">Risk Shield</a>
+            <a class="py-2 border-t hairline hover:text-white" href="#board">Board</a>
             <a class="py-2 border-t hairline hover:text-white" href="#role">Role</a>
             <a class="py-2 border-t hairline hover:text-white" href="#next-steps">Next Steps</a>
           </div>
@@ -180,21 +196,22 @@
     <div class="wrap">
       <div class="max-w-3xl">
         <div class="flex flex-wrap items-center gap-2 mb-6">
-          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">v1.0 Institutional Beta</span>
+          <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">v1.0 (demo)</span>
           <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">Institutional Grade</span>
           <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/70">Audit-ready by design</span>
         </div>
 
         <h1 class="text-4xl md:text-6xl font-semibold leading-[1.05] tracking-tight text-white">
-          Predictable execution cadence<br class="hidden sm:block" />
-          <span class="text-white/75">with embedded governance</span><br class="hidden sm:block" />
-          for confident capital deployment
+          Execution cadence<br class="hidden sm:block" />
+          <span class="text-white/75">without compromising</span><br class="hidden sm:block" />
+          audit-readiness
         </h1>
 
         <p class="mt-6 text-base md:text-lg text-white/65 leading-relaxed">
-          A governance-light operating model built for monthly launches — designed to
-          <span class="text-white/85">de-risk the pipeline</span>, protect leadership bandwidth, and keep evidence + sign-offs
-          produced as delivery output (not retrofitted under pressure).
+          A governance-light execution engine built for predictable monthly launches —
+          while the portfolio continues to grow.
+          Built to <span class="text-white/85">de-risk the pipeline</span>, protect capital deployment decisions,
+          and keep evidence and sign-offs embedded — not bolted on.
         </p>
 
         <div class="mt-8 flex flex-wrap gap-3">
@@ -204,73 +221,40 @@
           <button id="btnOpenAgendaHero" class="focus-ring inline-flex items-center justify-center px-5 py-3 rounded-full bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase">
             Walkthrough (15 min)
           </button>
-          <button id="btnOpenSteercoHero" class="focus-ring inline-flex items-center justify-center px-5 py-3 rounded-full badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
-            SteerCo Pack
-          </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- WHY / WHAT / GOVERNANCE (new executive layer) -->
-  <section class="pb-10">
+  <!-- WHY / WHAT -->
+  <section id="why-what" class="pb-10">
     <div class="wrap grid grid-cols-1 lg:grid-cols-12 gap-6">
-
-      <section id="why" class="lg:col-span-4 card p-6">
-        <div class="text-xs tracking-[0.18em] uppercase text-white/55">Why this matters</div>
-        <h2 class="mt-2 text-xl font-semibold text-white">Execution risk compounds with scale</h2>
+      <div class="lg:col-span-6 card p-6">
+        <div class="text-xs tracking-[0.18em] uppercase text-white/55">Why</div>
+        <h2 class="mt-2 text-2xl font-semibold text-white">Portfolio risk compounds as launches accumulate</h2>
         <p class="mt-3 text-sm text-white/60 leading-relaxed">
-          As CIP scales initiatives across platforms, operations, and funds, execution becomes a portfolio-level risk.
-          The cost is not “late projects” — it’s leadership time, delayed capital deployment, and governance friction surfacing under pressure.
+          Execution issues rarely come from one bad initiative. They come from a growing portfolio where decision points,
+          evidence, and ownership become inconsistent. The result is drift in business case assumptions, late governance
+          escalations, and avoidable rework — precisely when cadence is supposed to scale.
         </p>
-        <ul class="mt-4 space-y-2 text-sm text-white/60">
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>Late risk discovery drives schedule volatility</span></li>
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>Evidence gaps surface at the worst time (go-live)</span></li>
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>SteerCo meetings drift into firefighting</span></li>
-        </ul>
-      </section>
-
-      <section id="what" class="lg:col-span-4 card p-6">
-        <div class="text-xs tracking-[0.18em] uppercase text-white/55">What this enables</div>
-        <h2 class="mt-2 text-xl font-semibold text-white">Predictability, visibility, assurance</h2>
-        <p class="mt-3 text-sm text-white/60 leading-relaxed">
-          This is an operating model (not a tool) that produces decision-ready visibility while keeping governance “light” and embedded.
-        </p>
-        <div class="mt-4 space-y-3 text-sm text-white/65">
-          <div class="flex gap-3">
-            <span class="status-dot dot-green mt-1.5"></span>
-            <div><span class="text-white/85">Predictable cadence:</span> a reusable 30-day launch rhythm</div>
-          </div>
-          <div class="flex gap-3">
-            <span class="status-dot dot-green mt-1.5"></span>
-            <div><span class="text-white/85">Embedded governance:</span> checkpoints + artifacts produced as delivery output</div>
-          </div>
-          <div class="flex gap-3">
-            <span class="status-dot dot-yellow mt-1.5"></span>
-            <div><span class="text-white/85">Decision velocity:</span> explicit Go/No-Go gates with documented trade-offs</div>
-          </div>
+        <div class="mt-5 p-4 rounded-2xl border hairline bg-white/3 text-sm text-white/65">
+          Principle: <span class="text-white/85">Control enables speed</span> — because it removes ambiguity and last-minute approvals.
         </div>
-      </section>
+      </div>
 
-      <section id="governance" class="lg:col-span-4 card p-6">
-        <div class="text-xs tracking-[0.18em] uppercase text-white/55">Board / SteerCo confidence</div>
-        <h2 class="mt-2 text-xl font-semibold text-white">Governance designed to earn trust</h2>
+      <div class="lg:col-span-6 card p-6">
+        <div class="text-xs tracking-[0.18em] uppercase text-white/55">What</div>
+        <h2 class="mt-2 text-2xl font-semibold text-white">An operating system that protects the business case</h2>
         <p class="mt-3 text-sm text-white/60 leading-relaxed">
-          The objective is not more reporting — it is to ensure that when leadership asks, the answers already exist:
-          readiness, risks, owners, and evidence.
+          This hub links delivery to the business case: value drivers, CAPEX guardrails, decision gates (Go/No-Go),
+          and an audit-ready evidence trail. It makes board/SteerCo acceptance repeatable — without turning delivery into bureaucracy.
         </p>
-        <ul class="mt-4 space-y-2 text-sm text-white/60">
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>Structured decision gates (Go/No-Go) with records</span></li>
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>Transparent risk ownership (flags are visible &amp; actioned early)</span></li>
-          <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span><span>Audit trail completeness as a default output — not a scramble</span></li>
+        <ul class="mt-5 space-y-2 text-sm text-white/65">
+          <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span><span class="text-white/85">Capital deployment clarity:</span> decision-ready packs per initiative.</span></li>
+          <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span><span class="text-white/85">Institutional grade evidence:</span> artifacts produced as delivery output.</span></li>
+          <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span><span class="text-white/85">Operational scalability:</span> same playbook reused every month.</span></li>
         </ul>
-        <div class="mt-5 pt-4 border-t hairline">
-          <button id="btnOpenSteerco" class="focus-ring w-full px-4 py-3 rounded-2xl badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
-            Open SteerCo Pack (template)
-          </button>
-        </div>
-      </section>
-
+      </div>
     </div>
   </section>
 
@@ -285,9 +269,9 @@
         </div>
 
         <div class="card p-5">
-          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Pipeline Health</div>
-          <div id="kpiHealth" class="mt-3 text-3xl font-semibold text-white">Stable</div>
-          <div id="kpiHealthSub" class="mt-2 text-sm text-white/55">Balanced load across weeks</div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Portfolio Load</div>
+          <div id="kpiLoad" class="mt-3 text-3xl font-semibold text-white">—</div>
+          <div id="kpiLoadSub" class="mt-2 text-sm text-white/55">Active + stabilisation footprint</div>
         </div>
 
         <div class="card p-5">
@@ -297,14 +281,72 @@
         </div>
 
         <div class="card p-5">
-          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Audit Readiness</div>
-          <div id="kpiAudit" class="mt-3 text-3xl font-semibold text-white">High</div>
-          <div id="kpiAuditSub" class="mt-2 text-sm text-white/55">Evidence complete by default</div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Board Readiness</div>
+          <div id="kpiBoard" class="mt-3 text-3xl font-semibold text-white">—</div>
+          <div id="kpiBoardSub" class="mt-2 text-sm text-white/55">Decision packs & evidence completeness</div>
         </div>
       </div>
 
       <div class="mt-5 text-xs text-white/50">
-        Tip: Select a project in the Risk Shield to see KPI updates, blueprint highlighting, and scorecard changes.
+        Tip: Select a project in the Risk Shield to update KPIs, deployment status, blueprint highlight, and scorecard.
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio deployment status -->
+  <section id="deployment" class="pb-10">
+    <div class="wrap">
+      <div class="card p-6">
+        <div class="flex items-start justify-between gap-4 flex-col md:flex-row">
+          <div>
+            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Portfolio Deployment Status</div>
+            <h2 class="mt-2 text-xl font-semibold text-white">The portfolio grows — launches do not replace each other</h2>
+            <p class="mt-2 text-sm text-white/60 leading-relaxed max-w-3xl">
+              This view shows ongoing deployment footprint (delivery + stabilisation + live operations) alongside the rolling pipeline.
+              It prevents “launch amnesia” — where new initiatives arrive while older ones still consume capacity and governance attention.
+            </p>
+          </div>
+
+          <div class="flex gap-2 flex-wrap">
+            <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/75">Capacity-aware</span>
+            <span class="badge px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/75">Evidence-aware</span>
+          </div>
+        </div>
+
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">In delivery</div>
+            <div id="depDeliveryCount" class="mt-1 text-2xl font-semibold">—</div>
+            <div class="mt-2 bar-wrap"><div id="depDeliveryBar" class="bar-fill" style="width:0%"></div></div>
+            <div id="depDeliverySub" class="mt-2 text-xs text-white/55">—</div>
+          </div>
+
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">In stabilisation</div>
+            <div id="depStabCount" class="mt-1 text-2xl font-semibold">—</div>
+            <div class="mt-2 bar-wrap"><div id="depStabBar" class="bar-fill" style="width:0%"></div></div>
+            <div id="depStabSub" class="mt-2 text-xs text-white/55">—</div>
+          </div>
+
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">Live / BAU</div>
+            <div id="depLiveCount" class="mt-1 text-2xl font-semibold">—</div>
+            <div class="mt-2 bar-wrap"><div id="depLiveBar" class="bar-fill" style="width:0%"></div></div>
+            <div id="depLiveSub" class="mt-2 text-xs text-white/55">—</div>
+          </div>
+
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">Upcoming pipeline</div>
+            <div id="depPipeCount" class="mt-1 text-2xl font-semibold">—</div>
+            <div class="mt-2 bar-wrap"><div id="depPipeBar" class="bar-fill" style="width:0%"></div></div>
+            <div id="depPipeSub" class="mt-2 text-xs text-white/55">—</div>
+          </div>
+        </div>
+
+        <div class="mt-6 p-4 rounded-2xl border hairline bg-white/3 text-sm text-white/65">
+          <span class="text-white/85">Interpretation:</span>
+          Delivery cadence can scale only if stabilisation and live footprint are explicit — otherwise capacity becomes “invisible debt”.
+        </div>
       </div>
     </div>
   </section>
@@ -320,8 +362,7 @@
             <div class="text-xs tracking-[0.18em] uppercase text-white/55">Monthly Launch Blueprint</div>
             <h2 class="mt-2 text-xl font-semibold text-white">30-day execution playbook</h2>
             <p class="mt-2 text-sm text-white/60 leading-relaxed">
-              Click a week to view objectives, GRC checkpoints, and the evidence artifacts that keep launches audit-ready
-              without slowing delivery.
+              Click a week to view objectives, GRC checkpoints, and evidence artifacts. Only one week can be open at a time.
             </p>
           </div>
 
@@ -331,7 +372,7 @@
         </div>
 
         <div class="mt-6 space-y-3" id="weekList">
-          <!-- Weeks injected by JS -->
+          <!-- injected -->
         </div>
 
         <div class="mt-6 border-t hairline pt-4">
@@ -344,75 +385,106 @@
 
       <!-- Risk Shield + Scorecard -->
       <section id="risk-shield" class="lg:col-span-7 card p-6">
-        <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-          <div>
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">GRC Risk Shield</div>
-            <h2 class="mt-2 text-xl font-semibold text-white">De-risking the pipeline</h2>
-            <p class="mt-2 text-sm text-white/60 leading-relaxed">
-              A single surface for phase, compliance status, and decision points — built to give the COO high confidence in
-              capital deployment timing and audit trail completeness.
-            </p>
-          </div>
-
-          <div class="flex flex-wrap gap-2">
-            <div id="filterChips" class="flex flex-wrap gap-2"></div>
-          </div>
-        </div>
-
-        <div class="mt-5 overflow-auto rounded-2xl border hairline">
-          <table class="w-full min-w-[860px] text-sm">
-            <thead class="bg-white/5">
-              <tr class="text-left text-white/60">
-                <th class="px-4 py-3 font-medium">Project</th>
-                <th class="px-4 py-3 font-medium">Launch date</th>
-                <th class="px-4 py-3 font-medium">Phase</th>
-                <th class="px-4 py-3 font-medium">GRC status</th>
-                <th class="px-4 py-3 font-medium">Risk flags</th>
-                <th class="px-4 py-3 font-medium">Owner</th>
-              </tr>
-            </thead>
-            <tbody id="projectRows" class="divide-y divide-white/10"></tbody>
-          </table>
-        </div>
-
-        <div id="scorecard" class="mt-7 grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="card p-5">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Operational Confidence Scorecard</div>
-            <div class="mt-3 grid grid-cols-2 gap-3">
-              <div class="p-3 rounded-2xl border hairline bg-white/3">
-                <div class="text-xs text-white/55">Time-to-launch</div>
-                <div id="scTime" class="mt-1 text-2xl font-semibold">—</div>
-              </div>
-              <div class="p-3 rounded-2xl border hairline bg-white/3">
-                <div class="text-xs text-white/55">Rework rate</div>
-                <div id="scRework" class="mt-1 text-2xl font-semibold">—</div>
-              </div>
-              <div class="p-3 rounded-2xl border hairline bg-white/3">
-                <div class="text-xs text-white/55">Audit completeness</div>
-                <div id="scAudit" class="mt-1 text-2xl font-semibold">—</div>
-              </div>
-              <div class="p-3 rounded-2xl border hairline bg-white/3">
-                <div class="text-xs text-white/55">Delivery confidence</div>
-                <div id="scConf" class="mt-1 text-2xl font-semibold">—</div>
-              </div>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+            <div>
+              <div class="text-xs tracking-[0.18em] uppercase text-white/55">GRC Risk Shield</div>
+              <h2 class="mt-2 text-xl font-semibold text-white">De-risking the pipeline</h2>
+              <p class="mt-2 text-sm text-white/60 leading-relaxed">
+                One surface for phase, compliance status, deployment state, decision points — and business case linkage.
+                Click a project to open its board-ready pack.
+              </p>
             </div>
-            <div class="mt-4 text-sm text-white/60 leading-relaxed">
-              The scorecard shifts with the selected project — showing where cadence increases
-              <span class="text-white/85">and</span> assurance strengthens.
+
+            <div class="flex flex-wrap gap-2 items-center">
+              <div id="filterChips" class="flex flex-wrap gap-2"></div>
             </div>
           </div>
 
-          <div class="card p-5">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">Operating posture</div>
-            <h3 class="mt-2 text-lg font-semibold text-white">Predictable rhythm, visible decisions</h3>
-            <ul class="mt-3 space-y-2 text-sm text-white/60">
-              <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>Weekly sign-offs are embedded — not last-minute requests.</li>
-              <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>Evidence artifacts are produced as delivery output, keeping audits low-friction.</li>
-              <li class="flex gap-3"><span class="mt-1 h-1.5 w-1.5 rounded-full bg-white/50"></span>Go/No-Go moments are explicit and scheduled, reducing execution noise.</li>
-            </ul>
+          <!-- Search -->
+          <div class="flex flex-col md:flex-row gap-3 md:items-center">
+            <div class="flex-1">
+              <input id="searchBox" class="w-full focus-ring px-4 py-3 rounded-2xl bg-white/5 border hairline text-white/85 placeholder:text-white/35"
+                     placeholder="Search by Project ID or Owner (e.g., BETA or Platform)"/>
+            </div>
+            <button id="btnClearSearch" class="focus-ring px-4 py-3 rounded-2xl badge text-white/85 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
+              Clear
+            </button>
+          </div>
+
+          <div class="overflow-auto rounded-2xl border hairline">
+            <table class="w-full min-w-[980px] text-sm">
+              <thead class="bg-white/5">
+                <tr class="text-left text-white/60">
+                  <th class="px-4 py-3 font-medium">Project</th>
+                  <th class="px-4 py-3 font-medium">Launch date</th>
+                  <th class="px-4 py-3 font-medium">Phase</th>
+                  <th class="px-4 py-3 font-medium">Deployment</th>
+                  <th class="px-4 py-3 font-medium">GRC status</th>
+                  <th class="px-4 py-3 font-medium">Risk flags</th>
+                  <th class="px-4 py-3 font-medium">Board pack</th>
+                  <th class="px-4 py-3 font-medium">Owner</th>
+                </tr>
+              </thead>
+              <tbody id="projectRows" class="divide-y divide-white/10">
+                <!-- injected -->
+              </tbody>
+            </table>
+          </div>
+
+          <div id="scorecard" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card p-5">
+              <div class="text-xs tracking-[0.18em] uppercase text-white/55">Velocity &amp; Quality Scorecard</div>
+              <div class="mt-3 grid grid-cols-2 gap-3">
+                <div class="p-3 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Time-to-launch</div>
+                  <div id="scTime" class="mt-1 text-2xl font-semibold">—</div>
+                </div>
+                <div class="p-3 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Rework rate</div>
+                  <div id="scRework" class="mt-1 text-2xl font-semibold">—</div>
+                </div>
+                <div class="p-3 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Audit completeness</div>
+                  <div id="scAudit" class="mt-1 text-2xl font-semibold">—</div>
+                </div>
+                <div class="p-3 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Delivery confidence</div>
+                  <div id="scConf" class="mt-1 text-2xl font-semibold">—</div>
+                </div>
+              </div>
+              <div class="mt-4 text-sm text-white/60 leading-relaxed">
+                Shifts with the selected project — highlighting where cadence increases while audit-readiness strengthens.
+              </div>
+            </div>
+
+            <div class="card p-5" id="board">
+              <div class="text-xs tracking-[0.18em] uppercase text-white/55">Board / SteerCo acceptance</div>
+              <h3 class="mt-2 text-lg font-semibold text-white">Decision gates that protect capital deployment</h3>
+              <p class="mt-2 text-sm text-white/60 leading-relaxed">
+                Board trust comes from repeatability: the same gates, the same evidence, every month.
+                Select a project to see its decision gate and pack readiness.
+              </p>
+
+              <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="p-4 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Current decision gate</div>
+                  <div id="bgGate" class="mt-1 text-base font-semibold">—</div>
+                  <div id="bgGateSub" class="mt-1 text-xs text-white/55">—</div>
+                </div>
+                <div class="p-4 rounded-2xl border hairline bg-white/3">
+                  <div class="text-xs text-white/55">Pack readiness</div>
+                  <div id="bgPack" class="mt-1 text-base font-semibold">—</div>
+                  <div id="bgPackSub" class="mt-1 text-xs text-white/55">—</div>
+                </div>
+              </div>
+
+              <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3 text-sm text-white/65">
+                Outcome: clear Go/No-Go moments, fewer escalations, and audit-ready evidence by default.
+              </div>
+            </div>
           </div>
         </div>
-
       </section>
 
       <!-- Role & Value -->
@@ -423,22 +495,28 @@
             <h2 class="mt-2 text-2xl font-semibold text-white">Architect &amp; driver of the launch engine</h2>
             <p class="mt-3 text-sm text-white/60 leading-relaxed">
               The goal is not a heavy control function — it’s a repeatable execution system that makes monthly launches
-              faster, safer, and easier to govern. The operating model is designed to give the COO room to breathe:
+              faster, safer, and easier to govern. The operating model gives leadership “room to breathe”:
               predictable cadence, explicit decision points, and audit-ready evidence without bureaucracy.
             </p>
 
             <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-3">
               <div class="p-4 rounded-2xl border hairline bg-white/3">
                 <div class="text-xs tracking-[0.16em] uppercase text-white/55">Controlled drive</div>
-                <div class="mt-2 text-sm text-white/70">Energy channeled into predictable execution — reducing noise while increasing pace.</div>
+                <div class="mt-2 text-sm text-white/70">
+                  Energy channeled into predictable execution — reducing noise while increasing pace.
+                </div>
               </div>
               <div class="p-4 rounded-2xl border hairline bg-white/3">
                 <div class="text-xs tracking-[0.16em] uppercase text-white/55">Institutional presence</div>
-                <div class="mt-2 text-sm text-white/70">Clear, formal stakeholder handling — aligned with investor-grade expectations.</div>
+                <div class="mt-2 text-sm text-white/70">
+                  Formal, investor-grade stakeholder handling — aligned with CIP expectations.
+                </div>
               </div>
               <div class="p-4 rounded-2xl border hairline bg-white/3">
                 <div class="text-xs tracking-[0.16em] uppercase text-white/55">Governance-light</div>
-                <div class="mt-2 text-sm text-white/70">GRC embedded as checkpoints + artifacts — accelerating delivery, not restricting it.</div>
+                <div class="mt-2 text-sm text-white/70">
+                  GRC embedded as checkpoints + artifacts — accelerating delivery, not restricting it.
+                </div>
               </div>
             </div>
           </div>
@@ -447,9 +525,18 @@
             <div class="p-5 rounded-2xl border hairline bg-white/3">
               <div class="text-xs tracking-[0.18em] uppercase text-white/55">What this unlocks</div>
               <div class="mt-3 space-y-3 text-sm text-white/65">
-                <div class="flex gap-3"><span class="status-dot dot-green mt-1.5"></span><div><span class="text-white/85">Operational scalability:</span> the same playbook reused every month.</div></div>
-                <div class="flex gap-3"><span class="status-dot dot-green mt-1.5"></span><div><span class="text-white/85">De-risking:</span> issues surface early through visible evidence gaps and flags.</div></div>
-                <div class="flex gap-3"><span class="status-dot dot-yellow mt-1.5"></span><div><span class="text-white/85">Leadership clarity:</span> fewer ad-hoc escalations, clearer Go/No-Go decisions.</div></div>
+                <div class="flex gap-3">
+                  <span class="status-dot dot-green mt-1.5"></span>
+                  <div><span class="text-white/85">Operational scalability:</span> the same playbook reused every month.</div>
+                </div>
+                <div class="flex gap-3">
+                  <span class="status-dot dot-green mt-1.5"></span>
+                  <div><span class="text-white/85">De-risking:</span> issues surface early through evidence gaps and flags.</div>
+                </div>
+                <div class="flex gap-3">
+                  <span class="status-dot dot-yellow mt-1.5"></span>
+                  <div><span class="text-white/85">Board confidence:</span> consistent decision gates & clean packs.</div>
+                </div>
               </div>
 
               <div class="mt-5 pt-4 border-t hairline">
@@ -477,7 +564,7 @@
 
           <div class="flex flex-wrap gap-3">
             <a class="focus-ring px-5 py-3 rounded-full bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase"
-               href="mailto:?subject=Discuss%20Operating%20Model%20-%20Execution%20%26%20GRC%20Hub&body=Suggested%20agenda%3A%0A1%29%20Why%20execution%20risk%20compounds%20with%20scale%0A2%29%20What%20the%20operating%20model%20enables%20%28cadence%2C%20assurance%2C%20visibility%29%0A3%29%20How%20the%2030-day%20playbook%20works%20%28checkpoints%20%2B%20artifacts%29%0A4%29%20SteerCo%2FBoard%20acceptance%20%28decision%20gates%2C%20risk%20ownership%2C%20audit%20trail%29%0A5%29%20First%2030%20days%20rollout%20plan%0A">
+               href="mailto:?subject=Discuss%20Operating%20Model%20-%20Execution%20%26%20GRC%20Hub&body=Suggested%20agenda%3A%0A1%29%20Why%2FWhat%3A%20portfolio%20risk%20and%20business%20case%20protection%0A2%29%20Monthly%2030-day%20blueprint%20and%20cadence%20assumptions%0A3%29%20Decision%20gates%20%28Go%2FNo-Go%29%20and%20board%20pack%20format%0A4%29%20GRC%20checkpoints%20%2B%20evidence%20artifacts%0A5%29%20Deployment%20footprint%20%28delivery%2Fstabilisation%2FBAU%29%20and%20capacity%20rules%0A">
               Discuss operating model
             </a>
             <button id="btnOpenAgendaBottom" class="focus-ring px-5 py-3 rounded-full badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
@@ -495,47 +582,101 @@
   <aside id="drawer" class="drawer bg-[rgba(7,19,33,.92)] border-l hairline backdrop-blur-xl">
     <div class="h-full flex flex-col">
       <div class="p-5 border-b hairline flex items-start justify-between gap-4">
-        <div>
+        <div class="min-w-0">
           <div class="text-xs tracking-[0.18em] uppercase text-white/55">Project Detail</div>
-          <div id="drawerTitle" class="mt-2 text-lg font-semibold text-white">—</div>
-          <div id="drawerSub" class="mt-1 text-sm text-white/60">Select a project to view evidence, risks, and decision point.</div>
+          <div id="drawerTitle" class="mt-2 text-lg font-semibold text-white truncate">—</div>
+          <div id="drawerSub" class="mt-1 text-sm text-white/60">Select a project to view evidence, risks, decision point, and business case linkage.</div>
         </div>
         <button id="btnCloseDrawer" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
           Close
         </button>
       </div>
 
-      <div class="p-5 overflow-auto">
+      <div class="p-5 overflow-auto space-y-4">
+        <!-- Status tiles -->
         <div class="grid grid-cols-2 gap-3">
           <div class="p-4 rounded-2xl border hairline bg-white/3">
             <div class="text-xs text-white/55">Phase</div>
             <div id="drawerPhase" class="mt-1 text-lg font-semibold">—</div>
           </div>
           <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">Deployment</div>
+            <div id="drawerDeploy" class="mt-1 text-lg font-semibold">—</div>
+          </div>
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
             <div class="text-xs text-white/55">GRC status</div>
             <div id="drawerStatus" class="mt-1 text-lg font-semibold">—</div>
           </div>
+          <div class="p-4 rounded-2xl border hairline bg-white/3">
+            <div class="text-xs text-white/55">Board pack</div>
+            <div id="drawerBoardPack" class="mt-1 text-lg font-semibold">—</div>
+          </div>
         </div>
 
-        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+        <!-- Business case -->
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Business case linkage</div>
+          <div class="mt-3 grid grid-cols-3 gap-3">
+            <div class="p-3 rounded-2xl border hairline bg-white/3">
+              <div class="text-xs text-white/55">NPV (demo)</div>
+              <div id="bcNpv" class="mt-1 text-base font-semibold text-white/85">—</div>
+            </div>
+            <div class="p-3 rounded-2xl border hairline bg-white/3">
+              <div class="text-xs text-white/55">IRR (demo)</div>
+              <div id="bcIrr" class="mt-1 text-base font-semibold text-white/85">—</div>
+            </div>
+            <div class="p-3 rounded-2xl border hairline bg-white/3">
+              <div class="text-xs text-white/55">CAPEX (demo)</div>
+              <div id="bcCapex" class="mt-1 text-base font-semibold text-white/85">—</div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <div class="text-xs text-white/55">Value drivers</div>
+            <div id="bcDrivers" class="mt-2 space-y-2 text-sm text-white/65"></div>
+          </div>
+
+          <div class="mt-3">
+            <div class="text-xs text-white/55">Critical assumptions (what SteerCo must accept)</div>
+            <div id="bcAssumptions" class="mt-2 space-y-2 text-sm text-white/65"></div>
+          </div>
+        </div>
+
+        <!-- Evidence checklist -->
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
           <div class="text-xs tracking-[0.18em] uppercase text-white/55">Evidence checklist</div>
           <ul id="drawerEvidence" class="mt-3 space-y-2 text-sm text-white/65"></ul>
         </div>
 
-        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+        <!-- Board pack checklist -->
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Board / SteerCo pack components</div>
+          <ul id="drawerBoardChecklist" class="mt-3 space-y-2 text-sm text-white/65"></ul>
+        </div>
+
+        <!-- Risks -->
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
           <div class="text-xs tracking-[0.18em] uppercase text-white/55">Risk notes</div>
           <div id="drawerRisks" class="mt-3 space-y-2 text-sm text-white/65"></div>
         </div>
 
-        <div class="mt-4 p-4 rounded-2xl border hairline bg-white/3">
+        <!-- Decision -->
+        <div class="p-4 rounded-2xl border hairline bg-white/3">
           <div class="text-xs tracking-[0.18em] uppercase text-white/55">Next decision point</div>
           <div id="drawerDecision" class="mt-3 text-sm text-white/70">—</div>
         </div>
 
-        <div class="mt-6">
+        <div class="grid grid-cols-2 gap-3">
           <button id="btnJumpToWeek" class="w-full focus-ring px-4 py-3 rounded-2xl bg-white text-slate-900 hover:bg-white/90 transition text-xs tracking-[0.16em] uppercase">
-            Open corresponding week in blueprint
+            Open week in blueprint
           </button>
+          <button id="btnCopyLink" class="w-full focus-ring px-4 py-3 rounded-2xl badge text-white/90 hover:bg-white/10 transition text-xs tracking-[0.16em] uppercase">
+            Copy project link
+          </button>
+        </div>
+
+        <div class="text-xs text-white/45">
+          Tip: Project links are hash-based (no tracking). Example: <span class="font-mono">#project=CIP-2026-BETA</span>
         </div>
       </div>
     </div>
@@ -544,6 +685,7 @@
   <!-- Week details modal -->
   <div id="weekModal" class="modal">
     <div class="backdrop" id="weekModalBackdrop"></div>
+
     <div class="modal-card">
       <div class="p-5 border-b hairline flex items-start justify-between gap-4">
         <div>
@@ -551,7 +693,9 @@
           <div id="weekModalTitle" class="mt-2 text-lg font-semibold text-white">—</div>
           <div id="weekModalSubtitle" class="mt-1 text-sm text-white/60">—</div>
         </div>
-        <button id="btnCloseWeekModal" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">Close</button>
+        <button id="btnCloseWeekModal" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
+          Close
+        </button>
       </div>
 
       <div class="p-5 space-y-4">
@@ -571,7 +715,7 @@
         </div>
 
         <div class="p-4 rounded-2xl border hairline bg-white/3">
-          <div class="text-xs tracking-[0.18em] uppercase text-white/55">How this accelerates delivery</div>
+          <div class="text-xs tracking-[0.18em] uppercase text-white/55">How this protects the business case</div>
           <p id="weekModalExplain" class="mt-2 text-sm text-white/65 leading-relaxed"></p>
         </div>
       </div>
@@ -588,81 +732,20 @@
           <div class="mt-2 text-lg font-semibold text-white">Suggested 15-minute agenda</div>
           <div class="mt-1 text-sm text-white/60">Focused, COO-friendly, decision-oriented.</div>
         </div>
-        <button id="btnCloseAgenda" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">Close</button>
+        <button id="btnCloseAgenda" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">
+          Close
+        </button>
       </div>
       <div class="p-5">
         <ol class="list-decimal pl-5 space-y-2 text-sm text-white/70">
-          <li><span class="text-white/85">Why:</span> execution risk compounding with scale.</li>
-          <li><span class="text-white/85">What:</span> predictable cadence + embedded assurance + decision-ready visibility.</li>
-          <li><span class="text-white/85">How:</span> 30-day blueprint with embedded checkpoints and artifacts.</li>
-          <li><span class="text-white/85">SteerCo:</span> Go/No-Go gates, risk ownership, audit trail by default.</li>
-          <li><span class="text-white/85">First 30 days:</span> stand-up plan and first launch cycle.</li>
+          <li><span class="text-white/85">Why/What</span>: portfolio risk compounding + business case protection.</li>
+          <li><span class="text-white/85">Portfolio deployment footprint</span>: delivery vs stabilisation vs live/BAU.</li>
+          <li><span class="text-white/85">Monthly cadence</span>: 30-day blueprint + capacity assumptions.</li>
+          <li><span class="text-white/85">Board/SteerCo gates</span>: Go/No-Go pack + readiness signals.</li>
+          <li><span class="text-white/85">Risk Shield</span>: one-screen visibility & proactive de-risking.</li>
         </ol>
         <div class="mt-5 p-4 rounded-2xl border hairline bg-white/3 text-sm text-white/65">
-          Outcome: predictable operational cadence + audit-ready evidence — enabling confident capital deployment timing.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SteerCo Pack modal (new) -->
-  <div id="steercoModal" class="modal">
-    <div class="backdrop" id="steercoBackdrop"></div>
-    <div class="modal-card">
-      <div class="p-5 border-b hairline flex items-start justify-between gap-4">
-        <div>
-          <div class="text-xs tracking-[0.18em] uppercase text-white/55">SteerCo Pack</div>
-          <div class="mt-2 text-lg font-semibold text-white">Decision-ready template (monthly)</div>
-          <div class="mt-1 text-sm text-white/60">The minimum that maximises confidence.</div>
-        </div>
-        <button id="btnCloseSteerco" class="focus-ring px-3 py-2 rounded-full badge text-white/85 hover:bg-white/10 transition text-xs">Close</button>
-      </div>
-
-      <div class="p-5 space-y-4">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div class="p-4 rounded-2xl border hairline bg-white/3">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">1. Executive summary</div>
-            <ul class="mt-3 space-y-2 text-sm text-white/70">
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Launch objective + value hypothesis</span></li>
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Delivery readiness (phase + confidence)</span></li>
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Capital deployment impact (timing sensitivity)</span></li>
-            </ul>
-          </div>
-
-          <div class="p-4 rounded-2xl border hairline bg-white/3">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">2. Risks &amp; mitigations</div>
-            <ul class="mt-3 space-y-2 text-sm text-white/70">
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Top 3 risks with owners and closure dates</span></li>
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Evidence gaps (if any) and action plan</span></li>
-              <li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>Exceptions explicitly approved (if any)</span></li>
-            </ul>
-          </div>
-
-          <div class="p-4 rounded-2xl border hairline bg-white/3">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">3. Decision gate</div>
-            <div class="mt-3 text-sm text-white/70 leading-relaxed">
-              <div class="badge inline-flex px-3 py-1.5 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">Go / No-Go</div>
-              <p class="mt-3">
-                Recommendation, trade-offs, and the one decision required from SteerCo — captured and timestamped.
-              </p>
-            </div>
-          </div>
-
-          <div class="p-4 rounded-2xl border hairline bg-white/3">
-            <div class="text-xs tracking-[0.18em] uppercase text-white/55">4. Evidence record</div>
-            <p class="mt-3 text-sm text-white/70 leading-relaxed">
-              A compact “evidence index” that points to the artifacts produced through the month (runbook, controls evidence, sign-offs, risk register updates).
-              This keeps audit-readiness low-friction.
-            </p>
-          </div>
-        </div>
-
-        <div class="p-4 rounded-2xl border hairline bg-white/3">
-          <div class="text-xs tracking-[0.18em] uppercase text-white/55">Why boards accept this</div>
-          <p class="mt-2 text-sm text-white/70 leading-relaxed">
-            It converts execution from “status updates” into <span class="text-white/85">decisions with evidence</span>:
-            readiness is explicit, risk ownership is visible, and the audit trail exists before it is asked for.
-          </p>
+          Outcome: predictable cadence + audit-ready evidence + clean decision gates — enabling confident capital deployment timing.
         </div>
       </div>
     </div>
@@ -673,75 +756,382 @@
      * Hardcoded demo data (easy to change)
      *****************************************************************/
     const weeks = [
-      { id: 1, title: "Week 1 — De-risking & Scope", subtitle: "Clarify objective, define decision constraints, surface early risks.",
-        objectives: ["Define scope and success criteria (institutional grade)","Stakeholder map + decision owner alignment","Baseline timeline and critical dependencies"],
-        checks: ["Regulatory / policy alignment check","Risk assessment kickoff (materiality + controls)","Third-party exposure scan (if applicable)"],
-        artifacts: ["Launch Brief (scope, constraints, success metrics)","Initial Risk Register entry + owners","Stakeholder & sign-off map"],
-        explain: "Early clarity prevents late rework. By making constraints explicit in Week 1, delivery teams move faster with fewer escalations and cleaner approvals." },
-      { id: 2, title: "Week 2 — Resource Alignment", subtitle: "Lock capacity, validate assumptions, prepare evidence paths.",
-        objectives: ["Confirm team capacity + role clarity","Set delivery plan (work packages) and owners","Define evidence requirements per workstream"],
-        checks: ["Controls mapping (what evidence is required, by whom)","CAPEX / cost guardrails validation (if relevant)","Information security / data handling check"],
-        artifacts: ["Delivery plan + RACI (lean)","Evidence checklist (per workstream)","Updated Risk Register + mitigations"],
-        explain: "Evidence is planned like any other deliverable. This avoids last-minute ‘audit scrambling’ and reduces management overhead near go-live." },
-      { id: 3, title: "Week 3 — Operational Readiness", subtitle: "Prove readiness, close evidence gaps, prepare go/no-go.",
-        objectives: ["Operational runbook readiness","Training / comms readiness (where needed)","Close remaining risks and evidence gaps"],
-        checks: ["Pre go/no-go review (leadership pack)","Evidence completeness checkpoint","Exception handling approval (if any)"],
-        artifacts: ["Operations Runbook + handover plan","Go/No-Go pack (decision-ready)","Evidence bundle (audit trail)"],
-        explain: "Readiness is verified before pressure peaks. This reduces last-minute escalations and makes go/no-go decisions faster and higher confidence." },
-      { id: 4, title: "Week 4 — Launch & Stabilise", subtitle: "Execute launch, monitor, and secure the audit trail.",
-        objectives: ["Go-live execution and monitoring","Stabilisation and defect triage (light)","Capture lessons learned into next cycle"],
-        checks: ["Final sign-off captured (timestamped)","Post-launch risk review (residual risk)","Audit trail archive confirmation"],
-        artifacts: ["Go-live record (timestamped decision)","Post-launch risk note + actions","Lessons learned into playbook vNext"],
-        explain: "Stabilisation is part of the cadence. Capturing learnings into the playbook increases scalability — the next launch starts stronger by default." }
+      {
+        id: 1,
+        title: "Week 1 — De-risking & Scope",
+        subtitle: "Clarify objective, define decision constraints, surface early risks.",
+        objectives: [
+          "Define scope and success criteria (institutional grade)",
+          "Stakeholder map + decision owner alignment",
+          "Baseline timeline and critical dependencies"
+        ],
+        checks: [
+          "Regulatory / policy alignment check",
+          "Risk assessment kickoff (materiality + controls)",
+          "Third-party exposure scan (if applicable)"
+        ],
+        artifacts: [
+          "Launch Brief (scope, constraints, success metrics)",
+          "Initial Risk Register entry + owners",
+          "Stakeholder & sign-off map"
+        ],
+        explain:
+          "Week 1 forces clarity on constraints and decision ownership. This prevents late changes that erode business case assumptions and create governance noise."
+      },
+      {
+        id: 2,
+        title: "Week 2 — Resource Alignment",
+        subtitle: "Lock capacity, validate assumptions, prepare evidence paths.",
+        objectives: [
+          "Confirm team capacity + role clarity",
+          "Set delivery plan (work packages) and owners",
+          "Define evidence requirements per workstream"
+        ],
+        checks: [
+          "Controls mapping (what evidence is required, by whom)",
+          "CAPEX / cost guardrails validation (if relevant)",
+          "Information security / data handling check"
+        ],
+        artifacts: [
+          "Delivery plan + RACI (lean)",
+          "Evidence checklist (per workstream)",
+          "Updated Risk Register + mitigations"
+        ],
+        explain:
+          "Week 2 makes evidence and owners part of the delivery plan. This reduces last-minute audit work and keeps CAPEX/value assumptions stable through execution."
+      },
+      {
+        id: 3,
+        title: "Week 3 — Operational Readiness",
+        subtitle: "Prove readiness, close evidence gaps, prepare go/no-go.",
+        objectives: [
+          "Operational runbook readiness",
+          "Training / comms readiness (where needed)",
+          "Close remaining risks and evidence gaps"
+        ],
+        checks: [
+          "Pre go/no-go review (leadership pack)",
+          "Evidence completeness checkpoint",
+          "Exception handling approval (if any)"
+        ],
+        artifacts: [
+          "Operations Runbook + handover plan",
+          "Go/No-Go pack (decision-ready)",
+          "Evidence bundle (audit trail)"
+        ],
+        explain:
+          "Week 3 turns readiness into a decision-ready pack. That is what drives board/SteerCo acceptance — predictable gates with consistent evidence."
+      },
+      {
+        id: 4,
+        title: "Week 4 — Launch & Stabilise",
+        subtitle: "Execute launch, monitor, and secure the audit trail.",
+        objectives: [
+          "Go-live execution and monitoring",
+          "Stabilisation and defect triage (light)",
+          "Capture lessons learned into next cycle"
+        ],
+        checks: [
+          "Final sign-off captured (timestamped)",
+          "Post-launch risk review (residual risk)",
+          "Audit trail archive confirmation"
+        ],
+        artifacts: [
+          "Go-live record (timestamped decision)",
+          "Post-launch risk note + actions",
+          "Lessons learned into playbook vNext"
+        ],
+        explain:
+          "Week 4 makes stabilisation visible. This is how the portfolio can grow without hidden capacity debt — and the audit trail stays clean."
+      }
     ];
 
+    // Deployment states reflect the reality: portfolio grows; old work continues.
+    const DEPLOYMENT = {
+      DELIVERY: "In delivery",
+      STABILISATION: "In stabilisation",
+      LIVE: "Live / BAU",
+      PIPELINE: "Upcoming pipeline"
+    };
+
+    // Board pack readiness (no red in demo)
+    const BOARD_PACK = {
+      READY: "Ready",
+      DRAFT: "Draft",
+      IN_PROGRESS: "In progress"
+    };
+
     const projects = [
-      { id:"CIP-2026-ALPHA", launchDate:"2026-03-01", phaseWeek:3, grcStatus:"Compliant", riskFlags:0, owner:"Ops Excellence",
-        evidence:[{label:"Go/No-Go pack",done:true},{label:"Evidence bundle",done:true},{label:"Runbook + handover plan",done:true},{label:"Risk register updated",done:true}],
-        riskNotes:["Residual risk within tolerance; mitigations verified.","Dependencies stable; no outstanding approvals."],
-        decisionPoint:"Go/No-Go review scheduled (48h before launch).",
-        scorecard:{ time:"18 days", rework:"Low", audit:"96%", confidence:"High" } },
-      { id:"CIP-2026-BETA", launchDate:"2026-04-01", phaseWeek:2, grcStatus:"In review", riskFlags:1, owner:"Platform",
-        evidence:[{label:"Delivery plan + RACI",done:true},{label:"Controls mapping",done:true},{label:"Evidence checklist",done:false},{label:"Risk register updated",done:true}],
-        riskNotes:["One evidence gap: controls evidence owners not fully locked.","Mitigation: assign evidence owners in Week 2 checkpoint."],
-        decisionPoint:"Evidence owner alignment required before Week 3 readiness.",
-        scorecard:{ time:"22 days", rework:"Medium", audit:"84%", confidence:"Medium" } },
-      { id:"CIP-2026-GAMMA", launchDate:"2026-05-01", phaseWeek:1, grcStatus:"Pending", riskFlags:1, owner:"Investment Ops",
-        evidence:[{label:"Launch brief",done:true},{label:"Stakeholder map",done:false},{label:"Initial risk register entry",done:true},{label:"Regulatory alignment check",done:false}],
-        riskNotes:["Stakeholder map incomplete; risk of late sign-off friction.","Mitigation: complete sign-off map in Week 1."],
-        decisionPoint:"Scope/sign-off map closure at end of Week 1.",
-        scorecard:{ time:"30 days", rework:"Low", audit:"62%", confidence:"Medium" } },
-      { id:"CIP-2026-DELTA", launchDate:"2026-06-01", phaseWeek:2, grcStatus:"Compliant", riskFlags:0, owner:"Asset Mgmt",
-        evidence:[{label:"Delivery plan + RACI",done:true},{label:"Evidence checklist",done:true},{label:"Risk register updated",done:true},{label:"InfoSec check",done:true}],
-        riskNotes:["No material risks; cadence on track.","Dependencies stable; clear owners."],
-        decisionPoint:"Proceed to Week 3 readiness checkpoint.",
-        scorecard:{ time:"20 days", rework:"Low", audit:"90%", confidence:"High" } },
-      { id:"CIP-2026-EPSILON", launchDate:"2026-06-15", phaseWeek:1, grcStatus:"In review", riskFlags:2, owner:"Operations",
-        evidence:[{label:"Launch brief",done:true},{label:"Initial risk register entry",done:true},{label:"Third-party exposure scan",done:false},{label:"Controls mapping",done:false}],
-        riskNotes:["Two pending checks (third-party exposure + controls mapping).","Mitigation: close in Week 1 before scope locks."],
-        decisionPoint:"Close third-party + controls mapping before Week 2 resourcing.",
-        scorecard:{ time:"28 days", rework:"Medium", audit:"58%", confidence:"Medium" } },
-      { id:"CIP-2026-ZETA", launchDate:"2026-07-01", phaseWeek:4, grcStatus:"Compliant", riskFlags:0, owner:"Delivery Lead",
-        evidence:[{label:"Go-live record",done:true},{label:"Audit trail archived",done:true},{label:"Post-launch risk note",done:true},{label:"Lessons learned captured",done:true}],
-        riskNotes:["Stabilisation complete; playbook improvements queued.","Audit trail sealed; monitoring in steady state."],
-        decisionPoint:"Formal close-out and transition to BAU.",
-        scorecard:{ time:"16 days", rework:"Low", audit:"99%", confidence:"High" } }
+      {
+        id: "CIP-2026-ALPHA",
+        launchDate: "2026-03-01",
+        phaseWeek: 3,
+        deployment: DEPLOYMENT.DELIVERY,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        boardPack: BOARD_PACK.READY,
+        owner: "Ops Excellence",
+        decisionGate: { name: "Go/No-Go", when: "48h before launch", objective: "Confirm readiness + residual risk within tolerance." },
+        businessCase: {
+          npv: "€18–25m",
+          irr: "14–16%",
+          capex: "€6–8m",
+          drivers: ["Time-to-operations reduced", "Lower execution rework", "Higher compliance efficiency"],
+          assumptions: ["Owners assigned for all evidence items", "Capacity available in Week 3/4", "No material policy deviations"]
+        },
+        evidence: [
+          { label: "Go/No-Go pack", done: true },
+          { label: "Evidence bundle", done: true },
+          { label: "Runbook + handover plan", done: true },
+          { label: "Risk register updated", done: true }
+        ],
+        boardChecklist: [
+          { label: "Business case summary + key assumptions", done: true },
+          { label: "Risk posture + residual risk statement", done: true },
+          { label: "Controls/evidence completeness snapshot", done: true },
+          { label: "Go/No-Go decision record template", done: true }
+        ],
+        riskNotes: [
+          "Residual risk within tolerance; mitigations verified.",
+          "Dependencies stable; no outstanding approvals."
+        ],
+        decisionPoint: "Go/No-Go review scheduled (48h before launch).",
+        scorecard: { time: "18 days", rework: "Low", audit: "96%", confidence: "High" }
+      },
+      {
+        id: "CIP-2026-BETA",
+        launchDate: "2026-04-01",
+        phaseWeek: 2,
+        deployment: DEPLOYMENT.DELIVERY,
+        grcStatus: "In review",
+        riskFlags: 1,
+        boardPack: BOARD_PACK.DRAFT,
+        owner: "Platform",
+        decisionGate: { name: "Readiness checkpoint", when: "End of Week 2", objective: "Lock evidence owners + confirm controls mapping." },
+        businessCase: {
+          npv: "€10–14m",
+          irr: "12–14%",
+          capex: "€4–6m",
+          drivers: ["Reduced manual ops", "Fewer delays due to late approvals", "Improved audit cycle time"],
+          assumptions: ["Evidence owners confirmed by end of Week 2", "Controls mapping complete", "No new third-party exposure"]
+        },
+        evidence: [
+          { label: "Delivery plan + RACI", done: true },
+          { label: "Controls mapping", done: true },
+          { label: "Evidence checklist", done: false },
+          { label: "Risk register updated", done: true }
+        ],
+        boardChecklist: [
+          { label: "Business case summary + key assumptions", done: true },
+          { label: "Controls mapping snapshot", done: true },
+          { label: "Evidence owner map", done: false },
+          { label: "Decision gate memo (Week 2)", done: true }
+        ],
+        riskNotes: [
+          "One evidence gap: controls evidence owners not fully locked.",
+          "Mitigation: assign evidence owners in Week 2 checkpoint."
+        ],
+        decisionPoint: "Evidence owner alignment required before Week 3 readiness.",
+        scorecard: { time: "22 days", rework: "Medium", audit: "84%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-GAMMA",
+        launchDate: "2026-05-01",
+        phaseWeek: 1,
+        deployment: DEPLOYMENT.PIPELINE,
+        grcStatus: "Pending",
+        riskFlags: 1,
+        boardPack: BOARD_PACK.IN_PROGRESS,
+        owner: "Investment Ops",
+        decisionGate: { name: "Scope acceptance", when: "End of Week 1", objective: "Confirm scope, owners, and decision constraints." },
+        businessCase: {
+          npv: "€8–11m",
+          irr: "11–13%",
+          capex: "€3–5m",
+          drivers: ["Earlier de-risking", "Reduced sign-off friction", "Improved decision cycle time"],
+          assumptions: ["Stakeholder map complete by Week 1", "Policy alignment check completed", "Dependencies identified early"]
+        },
+        evidence: [
+          { label: "Launch brief", done: true },
+          { label: "Stakeholder map", done: false },
+          { label: "Initial risk register entry", done: true },
+          { label: "Regulatory alignment check", done: false }
+        ],
+        boardChecklist: [
+          { label: "Business case summary + key assumptions", done: false },
+          { label: "Stakeholder & sign-off map", done: false },
+          { label: "Initial risk posture statement", done: true },
+          { label: "Scope acceptance note", done: true }
+        ],
+        riskNotes: [
+          "Stakeholder map incomplete; risk of late sign-off friction.",
+          "Mitigation: complete sign-off map in Week 1."
+        ],
+        decisionPoint: "Scope/sign-off map closure at end of Week 1.",
+        scorecard: { time: "30 days", rework: "Low", audit: "62%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-DELTA",
+        launchDate: "2026-06-01",
+        phaseWeek: 2,
+        deployment: DEPLOYMENT.DELIVERY,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        boardPack: BOARD_PACK.READY,
+        owner: "Asset Mgmt",
+        decisionGate: { name: "Readiness checkpoint", when: "End of Week 2", objective: "Confirm capacity, evidence, and controls." },
+        businessCase: {
+          npv: "€14–20m",
+          irr: "13–15%",
+          capex: "€5–7m",
+          drivers: ["Faster time-to-market", "Reduced cost-to-serve", "Lower audit friction"],
+          assumptions: ["Capacity confirmed", "Evidence checklist complete", "No policy exceptions required"]
+        },
+        evidence: [
+          { label: "Delivery plan + RACI", done: true },
+          { label: "Evidence checklist", done: true },
+          { label: "Risk register updated", done: true },
+          { label: "InfoSec check", done: true }
+        ],
+        boardChecklist: [
+          { label: "Business case summary + key assumptions", done: true },
+          { label: "Controls/evidence completeness snapshot", done: true },
+          { label: "Capacity confirmation", done: true },
+          { label: "Decision gate memo (Week 2)", done: true }
+        ],
+        riskNotes: [
+          "No material risks; cadence on track.",
+          "Dependencies stable; clear owners."
+        ],
+        decisionPoint: "Proceed to Week 3 readiness checkpoint.",
+        scorecard: { time: "20 days", rework: "Low", audit: "90%", confidence: "High" }
+      },
+      {
+        id: "CIP-2026-EPSILON",
+        launchDate: "2026-06-15",
+        phaseWeek: 1,
+        deployment: DEPLOYMENT.PIPELINE,
+        grcStatus: "In review",
+        riskFlags: 2,
+        boardPack: BOARD_PACK.IN_PROGRESS,
+        owner: "Operations",
+        decisionGate: { name: "Scope acceptance", when: "End of Week 1", objective: "Close third-party + controls mapping before resourcing." },
+        businessCase: {
+          npv: "€6–9m",
+          irr: "10–12%",
+          capex: "€2–4m",
+          drivers: ["Third-party risk clarified early", "Reduced governance escalations", "Cleaner evidence trail"],
+          assumptions: ["Third-party scan closed Week 1", "Controls mapping closed Week 1", "No major dependency change"]
+        },
+        evidence: [
+          { label: "Launch brief", done: true },
+          { label: "Initial risk register entry", done: true },
+          { label: "Third-party exposure scan", done: false },
+          { label: "Controls mapping", done: false }
+        ],
+        boardChecklist: [
+          { label: "Business case summary + key assumptions", done: false },
+          { label: "Third-party risk posture statement", done: false },
+          { label: "Controls mapping snapshot", done: false },
+          { label: "Scope acceptance note", done: true }
+        ],
+        riskNotes: [
+          "Two pending checks (third-party exposure + controls mapping).",
+          "Mitigation: close in Week 1 before scope locks."
+        ],
+        decisionPoint: "Close third-party + controls mapping before Week 2 resourcing.",
+        scorecard: { time: "28 days", rework: "Medium", audit: "58%", confidence: "Medium" }
+      },
+      {
+        id: "CIP-2026-ZETA",
+        launchDate: "2026-07-01",
+        phaseWeek: 4,
+        deployment: DEPLOYMENT.STABILISATION,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        boardPack: BOARD_PACK.READY,
+        owner: "Delivery Lead",
+        decisionGate: { name: "Close-out", when: "Post-launch week", objective: "Confirm BAU handover + archive audit trail." },
+        businessCase: {
+          npv: "€9–13m",
+          irr: "12–14%",
+          capex: "€3–5m",
+          drivers: ["Reduced defects post-launch", "Faster BAU transition", "Sealed audit trail"],
+          assumptions: ["Handover complete", "Lessons learned captured", "Evidence archived"]
+        },
+        evidence: [
+          { label: "Go-live record", done: true },
+          { label: "Audit trail archived", done: true },
+          { label: "Post-launch risk note", done: true },
+          { label: "Lessons learned captured", done: true }
+        ],
+        boardChecklist: [
+          { label: "Close-out memo", done: true },
+          { label: "Residual risk statement", done: true },
+          { label: "Audit trail archive confirmation", done: true },
+          { label: "BAU ownership confirmed", done: true }
+        ],
+        riskNotes: [
+          "Stabilisation complete; playbook improvements queued.",
+          "Audit trail sealed; monitoring in steady state."
+        ],
+        decisionPoint: "Formal close-out and transition to BAU.",
+        scorecard: { time: "16 days", rework: "Low", audit: "99%", confidence: "High" }
+      },
+      {
+        id: "CIP-2026-ETA",
+        launchDate: "2026-01-15",
+        phaseWeek: 4,
+        deployment: DEPLOYMENT.LIVE,
+        grcStatus: "Compliant",
+        riskFlags: 0,
+        boardPack: BOARD_PACK.READY,
+        owner: "Operations",
+        decisionGate: { name: "BAU monitoring", when: "Monthly", objective: "Confirm operational KPIs + audit trail retention." },
+        businessCase: {
+          npv: "€12–18m",
+          irr: "13–16%",
+          capex: "€5–6m",
+          drivers: ["Operational efficiency", "Reduced compliance overhead", "Stable governance cadence"],
+          assumptions: ["BAU KPIs within tolerance", "Audit artifacts retained", "No new regulatory changes impacting controls"]
+        },
+        evidence: [
+          { label: "BAU KPI snapshot", done: true },
+          { label: "Control monitoring evidence", done: true },
+          { label: "Audit retention confirmation", done: true },
+          { label: "Monthly risk note", done: true }
+        ],
+        boardChecklist: [
+          { label: "BAU KPI statement", done: true },
+          { label: "Control monitoring summary", done: true },
+          { label: "Audit retention log", done: true },
+          { label: "Residual risk statement", done: true }
+        ],
+        riskNotes: [
+          "Operating in steady state.",
+          "No open control exceptions."
+        ],
+        decisionPoint: "Monthly BAU monitoring checkpoint.",
+        scorecard: { time: "—", rework: "Low", audit: "100%", confidence: "High" }
+      }
     ];
 
     const filters = [
       { id: "all", label: "All" },
       { id: "next30", label: "Next 30 days" },
       { id: "inreview", label: "In review" },
-      { id: "compliant", label: "Compliant" }
+      { id: "compliant", label: "Compliant" },
+      { id: "boardReady", label: "Board-ready" }
     ];
 
     /*****************************************************************
-     * Simple state management
+     * State
      *****************************************************************/
     const state = {
       selectedProjectId: null,
       selectedWeek: null,
-      activeFilter: "all"
+      activeFilter: "all",
+      search: ""
     };
 
     const el = (id) => document.getElementById(id);
@@ -766,56 +1156,123 @@
       return "Pending";
     }
 
+    function boardReadinessLabel(p){
+      // Simple: READY + audit >= 90 means board-ready
+      const auditPct = parseInt((p.scorecard.audit || "0").replace("%",""), 10);
+      if(p.boardPack === BOARD_PACK.READY && auditPct >= 90) return "Board-ready";
+      if(p.boardPack === BOARD_PACK.DRAFT) return "Draft";
+      return "In progress";
+    }
+
+    function matchesSearch(p){
+      const s = (state.search || "").trim().toLowerCase();
+      if(!s) return true;
+      return (p.id.toLowerCase().includes(s) || p.owner.toLowerCase().includes(s));
+    }
+
     function filterProjects(list){
-      const now = new Date("2026-02-20T00:00:00"); // deterministic demo
+      const now = new Date("2026-02-20T00:00:00"); // deterministic demo "today"
       const in30 = new Date(now); in30.setDate(in30.getDate()+30);
+
+      let out = list.filter(matchesSearch);
 
       switch(state.activeFilter){
         case "next30":
-          return list.filter(p => {
+          out = out.filter(p => {
             const d = new Date(p.launchDate + "T00:00:00");
             return d >= now && d <= in30;
           });
+          break;
         case "inreview":
-          return list.filter(p => p.grcStatus === "In review");
+          out = out.filter(p => p.grcStatus === "In review");
+          break;
         case "compliant":
-          return list.filter(p => p.grcStatus === "Compliant");
+          out = out.filter(p => p.grcStatus === "Compliant");
+          break;
+        case "boardReady":
+          out = out.filter(p => boardReadinessLabel(p) === "Board-ready");
+          break;
         default:
-          return list;
+          break;
       }
+
+      return out;
     }
 
-    function computeKpis(currentList){
+    function computeDeployment(){
+      const total = projects.length || 1;
+
+      const delivery = projects.filter(p => p.deployment === DEPLOYMENT.DELIVERY).length;
+      const stab = projects.filter(p => p.deployment === DEPLOYMENT.STABILISATION).length;
+      const live = projects.filter(p => p.deployment === DEPLOYMENT.LIVE).length;
+      const pipe = projects.filter(p => p.deployment === DEPLOYMENT.PIPELINE).length;
+
+      // bars
+      el("depDeliveryCount").textContent = delivery;
+      el("depStabCount").textContent = stab;
+      el("depLiveCount").textContent = live;
+      el("depPipeCount").textContent = pipe;
+
+      el("depDeliveryBar").style.width = `${Math.round((delivery/total)*100)}%`;
+      el("depStabBar").style.width = `${Math.round((stab/total)*100)}%`;
+      el("depLiveBar").style.width = `${Math.round((live/total)*100)}%`;
+      el("depPipeBar").style.width = `${Math.round((pipe/total)*100)}%`;
+
+      el("depDeliverySub").textContent = "Active execution footprint";
+      el("depStabSub").textContent = "Post-go-live capacity load";
+      el("depLiveSub").textContent = "Ongoing BAU governance";
+      el("depPipeSub").textContent = "Upcoming initiatives";
+
+      return { delivery, stab, live, pipe, total };
+    }
+
+    function computeKpis(){
       const selected = state.selectedProjectId ? projects.find(p => p.id === state.selectedProjectId) : null;
 
+      const dep = computeDeployment();
+      const load = dep.delivery + dep.stab; // simple "attention load"
+      const boardReadyCount = projects.filter(p => boardReadinessLabel(p) === "Board-ready").length;
+
       if(selected){
+        const auditPct = parseInt((selected.scorecard.audit || "0").replace("%",""), 10);
         return {
           cadence: "30 days",
           cadenceSub: "Rolling monthly launch rhythm",
-          health: selected.grcStatus === "Compliant" ? "Stable" : "Watch",
-          healthSub: selected.grcStatus === "Compliant" ? "Clear owners, low friction" : "One or more checkpoints pending",
+          load: `${load}/${dep.total}`,
+          loadSub: `Delivery ${dep.delivery} · Stabilisation ${dep.stab}`,
           risk: selected.riskFlags === 0 ? "Low" : "Controlled",
           riskSub: selected.riskFlags === 0 ? "No open flags" : `${selected.riskFlags} flag(s) visible & owned`,
-          audit: parseInt(selected.scorecard.audit, 10) >= 90 ? "High" : "Improving",
-          auditSub: `Evidence completeness ${selected.scorecard.audit}`
+          board: boardReadinessLabel(selected) === "Board-ready" ? "High" : "Improving",
+          boardSub: `Pack: ${selected.boardPack} · Audit ${selected.scorecard.audit}`
         };
       }
 
-      const total = currentList.length || 1;
-      const compliant = currentList.filter(p => p.grcStatus === "Compliant").length;
-      const inreview = currentList.filter(p => p.grcStatus === "In review").length;
-      const flags = currentList.reduce((a,p)=>a+p.riskFlags,0);
-
+      // aggregate view when nothing selected
+      const flags = projects.reduce((a,p)=>a+p.riskFlags,0);
+      const risk = flags === 0 ? "Low" : "Controlled";
       return {
         cadence: "30 days",
         cadenceSub: "Rolling monthly launch rhythm",
-        health: "Stable",
-        healthSub: `${compliant}/${total} compliant · ${inreview} in review`,
-        risk: flags === 0 ? "Low" : "Controlled",
-        riskSub: `${flags} total flag(s) visible across pipeline`,
-        audit: (compliant / total) >= 0.6 ? "High" : "Improving",
-        auditSub: "Evidence embedded as delivery output"
+        load: `${load}/${dep.total}`,
+        loadSub: `Delivery ${dep.delivery} · Stabilisation ${dep.stab}`,
+        risk,
+        riskSub: `${flags} total flag(s) visible across portfolio`,
+        board: boardReadyCount >= Math.ceil(dep.total*0.6) ? "High" : "Improving",
+        boardSub: `${boardReadyCount}/${dep.total} board-ready packs`
       };
+    }
+
+    function setHashProject(id){
+      // hash format: #project=CIP-2026-BETA
+      const base = window.location.href.split("#")[0];
+      const newUrl = `${base}#project=${encodeURIComponent(id)}`;
+      history.replaceState(null, "", newUrl);
+    }
+
+    function getHashProject(){
+      const h = window.location.hash || "";
+      const m = h.match(/project=([^&]+)/);
+      return m ? decodeURIComponent(m[1]) : null;
     }
 
     /*****************************************************************
@@ -832,6 +1289,8 @@
 
         const btn = document.createElement("button");
         btn.className = "w-full text-left p-4 rounded-2xl border hairline bg-white/3 hover:bg-white/5 transition focus-ring";
+        btn.setAttribute("data-week", String(w.id));
+
         btn.innerHTML = `
           <div class="flex items-start justify-between gap-4">
             <div>
@@ -847,6 +1306,7 @@
             </div>
           </div>
         `;
+
         btn.addEventListener("click", () => openWeekModal(w.id));
         container.appendChild(btn);
       });
@@ -854,14 +1314,15 @@
 
     function openWeekModal(weekId){
       state.selectedWeek = weekId;
-      const w = weeks.find(x => x.id === weekId);
 
+      const w = weeks.find(x => x.id === weekId);
       el("weekModalTitle").textContent = w.title;
       el("weekModalSubtitle").textContent = w.subtitle;
 
       el("weekModalObjectives").innerHTML = w.objectives.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
       el("weekModalChecks").innerHTML = w.checks.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
       el("weekModalArtifacts").innerHTML = w.artifacts.map(x => `<li class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><span>${x}</span></li>`).join("");
+
       el("weekModalExplain").textContent = w.explain;
 
       el("weekModalBackdrop").classList.add("open");
@@ -875,7 +1336,7 @@
     }
 
     /*****************************************************************
-     * Render: Filters + projects
+     * Render: Filters + table
      *****************************************************************/
     function renderFilters(){
       const container = el("filterChips");
@@ -887,10 +1348,8 @@
         b.textContent = f.label;
         b.addEventListener("click", () => {
           state.activeFilter = f.id;
-          const filteredIds = new Set(filterProjects(projects).map(p => p.id));
-          if(state.selectedProjectId && !filteredIds.has(state.selectedProjectId)){
-            state.selectedProjectId = null;
-          }
+          // If selected is filtered out, keep selection (we want board-level continuity),
+          // but table will reflect filter; drawer remains if open.
           renderAll();
         });
         container.appendChild(b);
@@ -906,25 +1365,35 @@
       list.forEach(p => {
         const tr = document.createElement("tr");
         tr.className = `table-row cursor-pointer transition ${state.selectedProjectId === p.id ? "bg-white/5" : ""}`;
+
         tr.innerHTML = `
           <td class="px-4 py-3 font-mono text-white/85">${p.id}</td>
           <td class="px-4 py-3 text-white/70">${formatDate(p.launchDate)}</td>
           <td class="px-4 py-3 text-white/70">Week ${p.phaseWeek}</td>
-          <td class="px-4 py-3 text-white/70"><span class="inline-flex items-center"><span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}</span></td>
+          <td class="px-4 py-3 text-white/70">${p.deployment}</td>
+          <td class="px-4 py-3 text-white/70">
+            <span class="inline-flex items-center">
+              <span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}
+            </span>
+          </td>
           <td class="px-4 py-3 text-white/70">${p.riskFlags}</td>
+          <td class="px-4 py-3 text-white/70">${p.boardPack}</td>
           <td class="px-4 py-3 text-white/70">${p.owner}</td>
         `;
+
         tr.addEventListener("click", () => {
           state.selectedProjectId = p.id;
           openDrawer(p.id);
+          setHashProject(p.id);
           renderAll();
         });
+
         tbody.appendChild(tr);
       });
 
       if(list.length === 0){
         const tr = document.createElement("tr");
-        tr.innerHTML = `<td colspan="6" class="px-4 py-6 text-white/60">No projects match this filter.</td>`;
+        tr.innerHTML = `<td colspan="8" class="px-4 py-6 text-white/60">No projects match this filter/search.</td>`;
         tbody.appendChild(tr);
       }
     }
@@ -938,16 +1407,50 @@
 
       el("drawerTitle").textContent = p.id;
       el("drawerSub").textContent = `${formatDate(p.launchDate)} · ${p.owner}`;
-      el("drawerPhase").textContent = `Week ${p.phaseWeek}`;
-      el("drawerStatus").innerHTML = `<span class="inline-flex items-center"><span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}</span>`;
 
+      el("drawerPhase").textContent = `Week ${p.phaseWeek}`;
+      el("drawerDeploy").textContent = p.deployment;
+
+      el("drawerStatus").innerHTML = `<span class="inline-flex items-center">
+        <span class="status-dot ${statusDot(p.grcStatus)}"></span>${statusText(p.grcStatus)}
+      </span>`;
+
+      el("drawerBoardPack").textContent = p.boardPack;
+
+      // business case
+      el("bcNpv").textContent = p.businessCase?.npv ?? "—";
+      el("bcIrr").textContent = p.businessCase?.irr ?? "—";
+      el("bcCapex").textContent = p.businessCase?.capex ?? "—";
+
+      el("bcDrivers").innerHTML = (p.businessCase?.drivers || []).map(d => `
+        <div class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><div>${d}</div></div>
+      `).join("");
+
+      el("bcAssumptions").innerHTML = (p.businessCase?.assumptions || []).map(a => `
+        <div class="flex gap-3"><span class="mt-2 h-1.5 w-1.5 rounded-full bg-white/45"></span><div>${a}</div></div>
+      `).join("");
+
+      // evidence checklist
       el("drawerEvidence").innerHTML = p.evidence.map(e => `
         <li class="flex items-start justify-between gap-3">
           <span>${e.label}</span>
-          <span class="text-xs px-2 py-1 rounded-full badge ${e.done ? "text-white/85" : "text-white/60"}">${e.done ? "Complete" : "Pending"}</span>
+          <span class="text-xs px-2 py-1 rounded-full badge ${e.done ? "text-white/85" : "text-white/60"}">
+            ${e.done ? "Complete" : "Pending"}
+          </span>
         </li>
       `).join("");
 
+      // board checklist
+      el("drawerBoardChecklist").innerHTML = p.boardChecklist.map(e => `
+        <li class="flex items-start justify-between gap-3">
+          <span>${e.label}</span>
+          <span class="text-xs px-2 py-1 rounded-full badge ${e.done ? "text-white/85" : "text-white/60"}">
+            ${e.done ? "Ready" : "In progress"}
+          </span>
+        </li>
+      `).join("");
+
+      // risks
       el("drawerRisks").innerHTML = p.riskNotes.map(r => `
         <div class="flex gap-3">
           <span class="mt-2 h-1.5 w-1.5 rounded-full ${p.riskFlags ? "bg-white/50" : "bg-white/35"}"></span>
@@ -955,10 +1458,18 @@
         </div>
       `).join("");
 
+      // decision point
       el("drawerDecision").textContent = p.decisionPoint;
 
+      // open
       el("backdrop").classList.add("open");
       el("drawer").classList.add("open");
+
+      // sync board section
+      el("bgGate").textContent = p.decisionGate?.name ?? "—";
+      el("bgGateSub").textContent = p.decisionGate ? `${p.decisionGate.when} · ${p.decisionGate.objective}` : "—";
+      el("bgPack").textContent = boardReadinessLabel(p);
+      el("bgPackSub").textContent = `Pack: ${p.boardPack} · Audit ${p.scorecard.audit}`;
     }
 
     function closeDrawer(){
@@ -967,68 +1478,61 @@
     }
 
     /*****************************************************************
-     * KPIs + Scorecard
+     * KPIs + Scorecard + Board cards
      *****************************************************************/
     function renderKpis(){
-      const list = filterProjects(projects);
-      const k = computeKpis(list);
+      // deployment always updates (portfolio reality)
+      const dep = computeDeployment();
 
+      const k = computeKpis();
       el("kpiCadence").textContent = k.cadence;
       el("kpiCadenceSub").textContent = k.cadenceSub;
 
-      el("kpiHealth").textContent = k.health;
-      el("kpiHealthSub").textContent = k.healthSub;
+      el("kpiLoad").textContent = k.load;
+      el("kpiLoadSub").textContent = k.loadSub;
 
       el("kpiRisk").textContent = k.risk;
       el("kpiRiskSub").textContent = k.riskSub;
 
-      el("kpiAudit").textContent = k.audit;
-      el("kpiAuditSub").textContent = k.auditSub;
+      el("kpiBoard").textContent = k.board;
+      el("kpiBoardSub").textContent = k.boardSub;
 
+      // Scorecard
       const p = state.selectedProjectId ? projects.find(x => x.id === state.selectedProjectId) : null;
       el("scTime").textContent = p ? p.scorecard.time : "—";
       el("scRework").textContent = p ? p.scorecard.rework : "—";
       el("scAudit").textContent = p ? p.scorecard.audit : "—";
       el("scConf").textContent = p ? p.scorecard.confidence : "—";
+
+      // Board cards if no project selected
+      if(!p){
+        el("bgGate").textContent = "—";
+        el("bgGateSub").textContent = "Select a project to view its current gate.";
+        el("bgPack").textContent = "—";
+        const readyCount = projects.filter(x => boardReadinessLabel(x) === "Board-ready").length;
+        el("bgPackSub").textContent = `${readyCount}/${projects.length} board-ready packs (demo)`;
+      }
     }
 
+    /*****************************************************************
+     * Global render
+     *****************************************************************/
     function renderAll(){
       renderFilters();
       renderProjects();
-      renderKpis();
       renderWeeks();
+      renderKpis();
     }
 
     /*****************************************************************
-     * Modals: Agenda + SteerCo
-     *****************************************************************/
-    const openAgenda = () => {
-      el("agendaBackdrop").classList.add("open");
-      el("agendaModal").classList.add("open");
-    };
-    const closeAgenda = () => {
-      el("agendaModal").classList.remove("open");
-      el("agendaBackdrop").classList.remove("open");
-    };
-
-    const openSteerco = () => {
-      el("steercoBackdrop").classList.add("open");
-      el("steercoModal").classList.add("open");
-    };
-    const closeSteerco = () => {
-      el("steercoModal").classList.remove("open");
-      el("steercoBackdrop").classList.remove("open");
-    };
-
-    /*****************************************************************
-     * Wire up events
+     * UI Wiring
      *****************************************************************/
     function setupUi(){
       // drawer close
       el("btnCloseDrawer").addEventListener("click", closeDrawer);
       el("backdrop").addEventListener("click", closeDrawer);
 
-      // jump to week from drawer
+      // jump to week
       el("btnJumpToWeek").addEventListener("click", () => {
         const p = state.selectedProjectId ? projects.find(x => x.id === state.selectedProjectId) : null;
         if(!p) return;
@@ -1037,42 +1541,78 @@
         openWeekModal(p.phaseWeek);
       });
 
+      // copy project link
+      el("btnCopyLink").addEventListener("click", async () => {
+        const p = state.selectedProjectId ? projects.find(x => x.id === state.selectedProjectId) : null;
+        if(!p) return;
+        const base = window.location.href.split("#")[0];
+        const link = `${base}#project=${encodeURIComponent(p.id)}`;
+        try{
+          await navigator.clipboard.writeText(link);
+          el("btnCopyLink").textContent = "Copied ✓";
+          setTimeout(()=> el("btnCopyLink").textContent = "Copy project link", 1200);
+        }catch(e){
+          // clipboard can fail on some browsers; fallback prompt
+          prompt("Copy this link:", link);
+        }
+      });
+
       // week modal close
       el("btnCloseWeekModal").addEventListener("click", closeWeekModal);
       el("weekModalBackdrop").addEventListener("click", closeWeekModal);
 
       // agenda modal
+      const openAgenda = () => {
+        el("agendaBackdrop").classList.add("open");
+        el("agendaModal").classList.add("open");
+      };
+      const closeAgenda = () => {
+        el("agendaModal").classList.remove("open");
+        el("agendaBackdrop").classList.remove("open");
+      };
+
       el("btnOpenAgendaHero").addEventListener("click", openAgenda);
-      el("btnOpenAgendaTop").addEventListener("click", openAgenda);
       el("btnOpenAgendaBottom").addEventListener("click", openAgenda);
+      el("btnOpenAgendaTop").addEventListener("click", openAgenda);
       el("btnCloseAgenda").addEventListener("click", closeAgenda);
       el("agendaBackdrop").addEventListener("click", closeAgenda);
-
-      // steerco modal
-      el("btnOpenSteerco").addEventListener("click", openSteerco);
-      el("btnOpenSteercoHero").addEventListener("click", openSteerco);
-      el("btnCloseSteerco").addEventListener("click", closeSteerco);
-      el("steercoBackdrop").addEventListener("click", closeSteerco);
 
       // mobile menu
       el("btnMobileMenu").addEventListener("click", () => {
         el("mobileMenu").classList.toggle("hidden");
       });
 
+      // search
+      el("searchBox").addEventListener("input", (e) => {
+        state.search = e.target.value || "";
+        renderAll();
+      });
+      el("btnClearSearch").addEventListener("click", () => {
+        state.search = "";
+        el("searchBox").value = "";
+        renderAll();
+      });
+
       // ESC close modals/drawer
       document.addEventListener("keydown", (e) => {
         if(e.key === "Escape"){
           closeDrawer();
-          closeWeekModal();
-          closeAgenda();
-          closeSteerco();
+          el("weekModal").classList.remove("open");
+          el("weekModalBackdrop").classList.remove("open");
+          el("agendaModal").classList.remove("open");
+          el("agendaBackdrop").classList.remove("open");
         }
       });
 
-      // Start clean (no overlays)
-      state.activeFilter = "all";
-      state.selectedProjectId = null;
-      state.selectedWeek = null;
+      // Deep-link: open project if hash is present
+      const hp = getHashProject();
+      if(hp && projects.some(p => p.id === hp)){
+        state.selectedProjectId = hp;
+        openDrawer(hp);
+      } else {
+        // default: none selected (clean)
+        state.selectedProjectId = null;
+      }
     }
 
     // Init
