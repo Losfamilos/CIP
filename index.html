@@ -1148,18 +1148,22 @@ const closeAgenda = () => {
         el("mobileMenu").classList.toggle("hidden");
       });
 
-      // ESC close modals/drawer
-      document.addEventListener("keydown", (e) => {
-        if(e.key === "Escape"){
-          closeDrawer();
-          el("weekModal").classList.remove("open");
-          el("agendaModal").classList.remove("open");
-        }
-      });
+     // ESC close modals/drawer
+document.addEventListener("keydown", (e) => {
+  if(e.key === "Escape"){
+    closeDrawer();
+
+    el("weekModal").classList.remove("open");
+    el("weekModalBackdrop").classList.remove("open");
+
+    el("agendaModal").classList.remove("open");
+    el("agendaBackdrop").classList.remove("open");
+  }
+});
 
       // Default selection to make it feel “alive”
       state.activeFilter = "all";
-      state.selectedProjectId = "CIP-2026-BETA";
+      state.selectedProjectId = null;
       openDrawer(state.selectedProjectId);
     }
 
