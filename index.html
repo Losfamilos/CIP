@@ -508,7 +508,7 @@
 
   <!-- Week details modal -->
   <div id="weekModal" class="modal">
-    <div class="backdrop open" id="weekModalBackdrop"></div>
+    <div class="backdrop" id="weekModalBackdrop"></div>
 
     <div class="modal-card">
       <div class="p-5 border-b hairline flex items-start justify-between gap-4">
@@ -548,7 +548,7 @@
 
   <!-- Agenda modal (simple) -->
   <div id="agendaModal" class="modal">
-    <div class="backdrop open" id="agendaBackdrop"></div>
+    <div class="backdrop" id="agendaBackdrop"></div>
     <div class="modal-card">
       <div class="p-5 border-b hairline flex items-start justify-between gap-4">
         <div>
@@ -950,13 +950,15 @@
 
       el("weekModalExplain").textContent = w.explain;
 
+      el("weekModalBackdrop").classList.add("open");
       el("weekModal").classList.add("open");
       renderWeeks(); // highlight sync
     }
 
     function closeWeekModal(){
-      el("weekModal").classList.remove("open");
-    }
+  el("weekModal").classList.remove("open");
+  el("weekModalBackdrop").classList.remove("open");
+}
 
     /*****************************************************************
      * Render: Filter chips + table rows
@@ -1125,8 +1127,15 @@
       el("weekModalBackdrop").addEventListener("click", closeWeekModal);
 
       // agenda modal
-      const openAgenda = () => el("agendaModal").classList.add("open");
-      const closeAgenda = () => el("agendaModal").classList.remove("open");
+     const openAgenda = () => {
+  el("agendaBackdrop").classList.add("open");
+  el("agendaModal").classList.add("open");
+};
+
+const closeAgenda = () => {
+  el("agendaModal").classList.remove("open");
+  el("agendaBackdrop").classList.remove("open");
+};
 
       el("btnOpenAgendaHero").addEventListener("click", openAgenda);
       el("btnOpenAgendaBottom").addEventListener("click", openAgenda);
