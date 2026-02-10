@@ -1279,38 +1279,44 @@
      * Render: Weeks
      *****************************************************************/
     function renderWeeks(){
-      const container = el("weekList");
-      container.innerHTML = "";
+  const container = el("weekList");
+  container.innerHTML = "";
 
-      weeks.forEach(w => {
-        const highlight = state.selectedProjectId
-          ? (projects.find(p => p.id === state.selectedProjectId)?.phaseWeek === w.id)
-          : false;
+  weeks.forEach(w => {
+    const isActive = state.selectedWeek === w.id;
+    const highlightFromProject = state.selectedProjectId
+      ? (projects.find(p => p.id === state.selectedProjectId)?.phaseWeek === w.id)
+      : false;
 
-        const btn = document.createElement("button");
-        btn.className = "w-full text-left p-4 rounded-2xl border hairline bg-white/3 hover:bg-white/5 transition focus-ring";
-        btn.setAttribute("data-week", String(w.id));
+    const btn = document.createElement("button");
 
-        btn.innerHTML = `
-          <div class="flex items-start justify-between gap-4">
-            <div>
-              <div class="text-xs tracking-[0.18em] uppercase ${highlight ? "text-white/85" : "text-white/55"}">
-                ${highlight ? "Selected project phase" : "Week " + w.id}
-              </div>
-              <div class="mt-1 text-base font-semibold text-white">${w.title}</div>
-              <div class="mt-1 text-sm ${highlight ? "text-white/75" : "text-white/60"}">${w.subtitle}</div>
-            </div>
-            <div class="flex items-center gap-2">
-              ${highlight ? `<span class="badge px-2.5 py-1 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/80">highlight</span>` : ""}
-              <span class="badge px-2.5 py-1 rounded-full text-[11px] tracking-[0.16em] uppercase text-white/70">Details</span>
-            </div>
+    btn.className =
+      "w-full text-left p-4 rounded-2xl border transition focus-ring " +
+      (isActive
+        ? "bg-white/10 border-white/30"
+        : "bg-white/3 border-white/10 hover:bg-white/5");
+
+    btn.innerHTML = `
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <div class="text-xs tracking-[0.18em] uppercase ${isActive || highlightFromProject ? "text-white/90" : "text-white/55"}">
+            Week ${w.id}
           </div>
-        `;
+          <div class="mt-1 text-base font-semibold text-white">${w.title}</div>
+          <div class="mt-1 text-sm ${isActive ? "text-white/80" : "text-white/60"}">${w.subtitle}</div>
+        </div>
+        <div class="flex items-center gap-2">
+          ${highlightFromProject && !isActive ? `<span class="badge px-2.5 py-1 rounded-full text-[11px] uppercase text-white/70">project phase</span>` : ""}
+          ${isActive ? `<span class="badge px-2.5 py-1 rounded-full text-[11px] uppercase text-white/90">open</span>` : ""}
+        </div>
+      </div>
+    `;
 
-        btn.addEventListener("click", () => openWeekModal(w.id));
-        container.appendChild(btn);
-      });
-    }
+    btn.addEventListener("click", () => openWeekModal(w.id));
+    container.appendChild(btn);
+  });
+}
+
 
     function openWeekModal(weekId){
       state.selectedWeek = weekId;
